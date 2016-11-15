@@ -21,11 +21,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        try{
-            return $this->packing(0,'success',OAuth::getInstance()->getRequestToken());
-        }catch (\Exception $E){
-            return $this->packing($E->getCode(),$E->getMessage(),null);
-        }
+        return OAuth::getInstance()->getRequestToken();
     }
 
     /**
