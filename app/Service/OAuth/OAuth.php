@@ -33,6 +33,11 @@ class OAuth
         return self::$Obj;
     }
 
+    /**
+     * 登录跳转
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function getRequestToken()
     {
         if (!env('CONSUMER_KEY') || !env('CONSUMER_SECRET') || !env('ORIGIN_URL')) {
@@ -42,10 +47,35 @@ class OAuth
         $param = [
             'client_id'     => env('CONSUMER_KEY'),
             'response_type' => 'code',
-            'redirect_uri'=>urlencode(env('APP_URL').'/home/callback'),
-            'state'=>mt_rand(1,1000)
+            'redirect_uri'=>env('APP_URL').'/loginCallback',
+            'state'=>mt_rand(1,10000)
         ];
+        session('state',$param['state']);
         $url.='?'.http_build_query($param,'&');
         return redirect($url);
+    }
+
+    /**
+     * 登录回调
+     * @param Request $request
+     */
+    public function loginCallback(Request $request)
+    {
+        if(session('state') != $request->input('state')){
+            throw new \Exception('链接过期或不合法，请重试！',2360);
+        }
+        $code = $request->input('code');
+        if(!$code){
+            throw new \Exception('预授权失败，请重试!',-3657);
+        }
+        $url=env('ORIGIN_URL').'/oauth/access2';
+        $param=[
+            'client_id'=>env('CONSUMER_KEY'),
+            'client_secret'=>env('CONSUMER_SECRET'),
+            'grant_type'=>'authorization_code',
+            'redirect_uri'=>env('APP_URL').'/loginCallback',
+            'code'=>$code
+        ];
+        var_dump(Curl::get($url,$param));
     }
 }

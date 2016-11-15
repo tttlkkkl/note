@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Service\OAuth\OAuth;
+use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
@@ -16,16 +17,26 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function index()
     {
-        return OAuth::getInstance()->getRequestToken();
+        try{
+            return $this->packing(0,'success',OAuth::getInstance()->getRequestToken());
+        }catch (\Exception $E){
+            return $this->packing($E->getCode(),$E->getMessage(),null);
+        }
     }
-    public function callback()
+
+    /**
+     * 登录回调
+     */
+    public function loginCallback(Request $request)
     {
-        print_r($_POST);
+        try{
+            return $this->packing(0,'success',OAuth::getInstance()->loginCallback($request));
+        }catch (\Exception $E){
+            return $this->packing($E->getCode(),$E->getMessage(),null);
+        }
     }
 }
