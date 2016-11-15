@@ -76,6 +76,6 @@ class OAuth
             'redirect_uri'=>env('APP_URL').'/loginCallback',
             'code'=>$code
         ];
-        var_dump(Curl::get($url,$param));
+        var_dump(Curl::get($url,$param,$header));
     }
 }

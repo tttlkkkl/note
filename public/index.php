@@ -16,8 +16,6 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
-header("Content-Type:text/html;charset=UTF-8");
-error_reporting(E_ERROR | E_PARSE);
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
@@ -45,6 +43,8 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
+error_reporting(E_ERROR | E_PARSE);
+header("Content-Type:text/html;charset=UTF-8");
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
