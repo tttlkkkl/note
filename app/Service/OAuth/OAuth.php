@@ -50,7 +50,7 @@ class OAuth
             'redirect_uri'=>env('APP_URL').'/loginCallback',
             'state'=>mt_rand(1,10000)
         ];
-        session('state',$param['state']);
+        session(['state'=>$param['state']]);
         $url.='?'.http_build_query($param,'&');
         return redirect($url);
     }
