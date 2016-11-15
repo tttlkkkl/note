@@ -16,7 +16,8 @@
 | loading any of our classes later on. It feels nice to relax.
 |
 */
-
+header("Content-Type:text/html;charset=UTF-8");
+error_reporting(E_ERROR | E_PARSE);
 require __DIR__.'/../bootstrap/autoload.php';
 
 /*
