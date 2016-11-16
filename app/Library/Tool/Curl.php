@@ -40,10 +40,10 @@ class Curl
     static public function get($url,$params,&$header)
     {
         $ex=explode('?',$url);
-        if($ex && $params){
+        if(is_array($ex) && count($ex) > 1 && $params){
             $url=reset($ex).'?'.(end($ex)?(end($ex).'&'):'').http_build_query($params,'&');
-        }elseif(!$ex && $params){
-            $url.=http_build_query($params,'&');
+        }elseif($params){
+            $url.='?'.http_build_query($params,'&');
         }
         return self::execute($url,null,2,$header);
     }
@@ -129,7 +129,7 @@ class Curl
         }else{
             $err=curl_error($cu);
             curl_close($cu);
-            throw new \Exception($err,-8200);
+            throw new \Exception($err?:'请求错误!',-8200);
         }
     }
 }
