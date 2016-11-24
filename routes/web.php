@@ -18,3 +18,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/loginCallback', 'HomeController@loginCallback');
+Route::get('/admin', 'AdminController@index');

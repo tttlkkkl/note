@@ -76,79 +76,40 @@ class OAuth
             'redirect_uri'=>env('APP_URL').'/loginCallback',
             'code'=>$code
         ];
-        //$result=json_decode(Curl::get($url,$param,$header),true);
+        $result=json_decode(Curl::get($url,$param,$header),true);
         if(isset($result['access_token'])){
             session(['access_token'=>$result['access_token']]);
+            return true;
+        }else{
+            throw new \Exception($result['massage']?:'授权失败',$result['error']?:4033);
         }
-        $this->getUserInfo();
-        $this->getNoteBook();
     }
-    public function getAccessToken($code)
-    {
 
-    }
-    private function getUserInfo()
+    /**
+     * 获取access_token
+     * @param $code
+     */
+    public function getAccessToken()
     {
-        if(!session('access_token')){
-            throw new \Exception('access_token 缺失，请重新授权！',5563);
+        if(session('access_token')){
+            return session('access_token');
+        }else{
+            throw new \Exception('授权过期,请重新登录!',5656);
         }
+    }
+
+    /**
+     * 获取用户信息
+     * @param $access_token
+     * @return mixed
+     */
+    public function getUserInfo($access_token)
+    {
         $url=env('ORIGIN_URL').'/yws/open/user/get.json';
         $param=[
-            'oauth_token'=>session('access_token')
+            'oauth_token'=>$access_token
         ];
         $result=json_decode(Curl::get($url,$param,$header),true);
-        echo '<pre>';
-        print_r($result);
-    }
-    private function getNoteBook()
-    {
-        if(!session('access_token')){
-            throw new \Exception('access_token 缺失，请重新授权！',5563);
-        }
-        $url=env('ORIGIN_URL').'/yws/open/notebook/all.json';
-        $param=[
-            'oauth_token'=>session('access_token')
-        ];
-        $result=json_decode(Curl::post($url,$param,$header),true);
-        print_r($result);
-        $this->getNoteList('/0979480BC1724560903DB37A62B4D8A1');
-    }
-    private function getNoteList($note)
-    {
-        if(!session('access_token')){
-            throw new \Exception('access_token 缺失，请重新授权！',5563);
-        }
-        $url=env('ORIGIN_URL').'/yws/open/notebook/list.json';
-        $param=[
-            'oauth_token'=>session('access_token'),
-            'notebook'=>$note
-        ];
-        $result=json_decode(Curl::post($url,$param,$header),true);
-        print_r($result);
-        foreach ($result as $k => $v){
-            if(4!=$k){
-                //continue;
-            }
-            $this->getNote($v);
-        }
-        die;
-    }
-    public function getNote($path)
-    {
-        if(!session('access_token')){
-            throw new \Exception('access_token 缺失，请重新授权！',5563);
-        }
-        $url=env('ORIGIN_URL').'/yws/open/note/get.json';
-        $param=[
-            'oauth_token'=>session('access_token'),
-            'path'=>$path
-        ];
-        $result=json_decode(Curl::post($url,$param,$header),true);
-        //echo '<pre>';
-        print_r($result);
-        //header('Content-Type:application/x-www-form-urlencoded');
-        //header('Content-Type:application/xml');
-        //echo $header;
-        echo $result['content'];
+        return $result;
     }
 }
