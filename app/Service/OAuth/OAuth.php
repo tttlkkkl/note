@@ -79,6 +79,8 @@ class OAuth
         $result=json_decode(Curl::get($url,$param,$header),true);
         if(isset($result['access_token'])){
             session(['access_token'=>$result['access_token']]);
+            session(['isLogin'=>true]);
+            var_dump(session('access_token'));
             return true;
         }else{
             throw new \Exception($result['massage']?:'授权失败',$result['error']?:4033);

@@ -9,8 +9,10 @@
  * @author: lihs
  * @copyright: ec
  */
-namespace App\Service\NotePull;
+namespace App\Service\NoteSyn;
 use  Log;
+use App\Library\Tool\Curl;
+
 class OriginPull
 {
     protected $access_token;
@@ -48,7 +50,7 @@ class OriginPull
         ];
         $header='';
         $result=json_decode(Curl::post($url,$param,$header),true);
-        if($result && $result['error']){
+        if($result && isset($result['error'])){
             Log::error('获取笔记本列表失败:'.json_encode($result,JSON_UNESCAPED_UNICODE));
             return false;
         }
@@ -72,7 +74,7 @@ class OriginPull
         ];
         $header='';
         $result=json_decode(Curl::post($url,$param,$header),true);
-        if($result && $result['error']){
+        if($result && isset($result['error'])){
             Log::error('获取笔记列表失败:'.json_encode($result,JSON_UNESCAPED_UNICODE));
             return false;
         }
@@ -96,7 +98,7 @@ class OriginPull
         ];
         $header='';
         $result=json_decode(Curl::post($url,$param,$header),true);
-        if($result && $result['error']){
+        if($result && isset($result['error'])){
             Log::error('获取笔记内容失败:'.json_encode($result,JSON_UNESCAPED_UNICODE));
             return false;
         }

@@ -10,6 +10,7 @@
  * @copyright: ec
  */
 namespace App\Http\Controllers;
+use App\Service\NoteSyn\Update;
 use App\Service\OAuth\OAuth;
 use Illuminate\Http\Request;
 class AdminController extends Controller
@@ -21,14 +22,15 @@ class AdminController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('checkLogin');
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * 管理首页
      */
     public function index()
     {
-        return OAuth::getInstance()->getRequestToken();
+        Update::getInstance()->updateNoteBook();
     }
 
     /**
@@ -42,5 +44,21 @@ class AdminController extends Controller
         }catch (\Exception $E){
             return $this->packing($E->getCode(),$E->getMessage(),null);
         }
+    }
+
+    /**
+     * 登录授权
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function login()
+    {
+        return OAuth::getInstance()->getRequestToken();
+    }
+    /**
+     * 管理页
+     */
+    public function manage()
+    {
+
     }
 }
