@@ -15,10 +15,8 @@ class CheckLogin
      */
     public function handle($request, Closure $next)
     {
-        if(!session('isLogin') && 'login' != Route::currentRouteName()){
-            //return redirect('login');
-            var_dump(session('isLogin'));
-            var_dump(Route::currentRouteName());
+        if(!session('isLogin') && !in_array(Route::currentRouteName(),['loginCallback','login'])){
+            return redirect('login');
         }
         return $next($request);
     }

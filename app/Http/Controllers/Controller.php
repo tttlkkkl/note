@@ -20,13 +20,17 @@ class Controller extends BaseController
      * @param null $rootNodeName
      * @return string
      */
-    public function packing($status = 0, $msg, $data)
+    public function packing($status = 0, $msg='ok', $data=[],$extend=[])
     {
         $returnData = [
             'status' => $status,
             'msg'    => $msg,
             'data'   => $data,
         ];
+        if($extend && is_array($extend)){
+            $returnData=array_merge($returnData,$extend);
+        }
+        header('Content-Type:application/json; charset=utf-8');
         return json_encode($returnData, JSON_UNESCAPED_UNICODE);
     }
 }

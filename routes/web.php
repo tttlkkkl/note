@@ -17,6 +17,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-Route::get('/loginCallback', 'AdminController@loginCallback');
 Route::get('/admin', 'AdminController@index');
 Route::get('/login', ['as'=>'login','uses'=>'AdminController@login']);
+Route::get('/loginCallback', ['as'=>'loginCallback','uses'=>'AdminController@loginCallback']);

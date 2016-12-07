@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50550
 File Encoding         : 65001
 
-Date: 2016-11-16 14:13:39
+Date: 2016-11-29 09:43:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,16 +21,16 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `b_article`;
 CREATE TABLE `b_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` char(140) CHARACTER SET utf8 NOT NULL,
-  `summary` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '简短的描述',
-  `content` text CHARACTER SET utf8 NOT NULL,
+  `title` char(140) NOT NULL,
+  `summary` varchar(255) DEFAULT NULL COMMENT '简短的描述',
+  `content` text NOT NULL,
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
   `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1正常，0异常',
   `reading` int(11) DEFAULT '0' COMMENT '阅读量',
   `delete_time` int(11) NOT NULL DEFAULT '0' COMMENT '删除时间',
   `classify` int(11) NOT NULL DEFAULT '0' COMMENT '所属类目',
-  `path` char(32) CHARACTER SET utf8 DEFAULT '' COMMENT 'note中path的MD5',
+  `path` char(32) DEFAULT '' COMMENT 'note中path的MD5',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='解析后的文章数据';
 
@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `b_note`;
 CREATE TABLE `b_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `summary` varchar(255) DEFAULT '',
-  `path` char(70) NOT NULL,
+  `path` char(128) NOT NULL,
   `thumbnail` varchar(255) DEFAULT '',
   `size` int(11) NOT NULL DEFAULT '0' COMMENT '笔记大小包括所有资源附件',
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
@@ -76,7 +76,7 @@ CREATE TABLE `b_note` (
   `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
   `source` varchar(255) DEFAULT '' COMMENT '修改后的笔记来源',
   `title` char(140) NOT NULL DEFAULT '',
-  `content` text NOT NULL,
+  `content` longtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='笔记原数据';
 
@@ -86,13 +86,27 @@ CREATE TABLE `b_note` (
 DROP TABLE IF EXISTS `b_note_book`;
 CREATE TABLE `b_note_book` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `path` char(33) CHARACTER SET utf8 NOT NULL,
+  `path` char(64) NOT NULL DEFAULT '' COMMENT '笔记路径',
+  `name` char(20) NOT NULL DEFAULT '' COMMENT '笔记本名称',
   `notes_num` int(11) NOT NULL DEFAULT '0' COMMENT '笔记数目',
-  `create_time` int(11) NOT NULL,
-  `modify_time` int(11) NOT NULL,
+  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
   `delete_time` int(11) NOT NULL DEFAULT '0' COMMENT '删除时间',
-  PRIMARY KEY (`id`)
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '同步更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `node_index` (`path`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='有道云笔记原笔记数据';
+
+-- ----------------------------
+-- Table structure for b_syn_log
+-- ----------------------------
+DROP TABLE IF EXISTS `b_syn_log`;
+CREATE TABLE `b_syn_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(128) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '同步以及更新临时日志',
+  `code` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 普通提醒，1 警告，2 错误 ，3 同步异常中断 4 完成',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for b_tag

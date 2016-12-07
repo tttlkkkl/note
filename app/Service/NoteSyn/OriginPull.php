@@ -41,12 +41,12 @@ class OriginPull
      */
     public function getNoteBook()
     {
-        if(!session('access_token')){
+        if(!$this->access_token){
             throw new \Exception('access_token 缺失，请重新授权！',5563);
         }
         $url=env('ORIGIN_URL').'/yws/open/notebook/all.json';
         $param=[
-            'oauth_token'=>session('access_token')
+            'oauth_token'=>$this->access_token
         ];
         $header='';
         $result=json_decode(Curl::post($url,$param,$header),true);
@@ -64,12 +64,12 @@ class OriginPull
      */
     public function getNoteList($note)
     {
-        if(!session('access_token')){
+        if(!$this->access_token){
             throw new \Exception('access_token 缺失，请重新授权！',5563);
         }
         $url=env('ORIGIN_URL').'/yws/open/notebook/list.json';
         $param=[
-            'oauth_token'=>session('access_token'),
+            'oauth_token'=>$this->access_token,
             'notebook'=>$note
         ];
         $header='';
@@ -88,12 +88,12 @@ class OriginPull
      */
     public function getNote($path)
     {
-        if(!session('access_token')){
+        if(!$this->access_token){
             throw new \Exception('access_token 缺失，请重新授权！',5563);
         }
         $url=env('ORIGIN_URL').'/yws/open/note/get.json';
         $param=[
-            'oauth_token'=>session('access_token'),
+            'oauth_token'=>$this->access_token,
             'path'=>$path
         ];
         $header='';

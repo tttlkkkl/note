@@ -30,7 +30,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        Update::getInstance()->updateNoteBook();
+        try{
+            return $this->packing(0,'ok',Update::getInstance()->updateNoteBook());
+        }catch (\Exception $E){
+            return $this->packing($E->getCode(),$E->getMessage());
+        }
     }
 
     /**
@@ -54,11 +58,28 @@ class AdminController extends Controller
     {
         return OAuth::getInstance()->getRequestToken();
     }
-    /**
-     * 管理页
-     */
-    public function manage()
-    {
 
+    /**
+     * 同步所有笔记本数据数据
+     */
+    public function updateNoteBook()
+    {
+        try{
+            return $this->packing(0,'ok',Update::getInstance()->updateNoteBook());
+        }catch (\Exception $E){
+            return $this->packing($E->getCode(),$E->getMessage());
+        }
+    }
+
+    /**
+     * 同步笔记本
+     */
+    public function updateNote()
+    {
+        try{
+            return $this->packing(0,'ok',Update::getInstance()->updateNote());
+        }catch (\Exception $E){
+            return $this->packing($E->getCode(),$E->getMessage());
+        }
     }
 }
