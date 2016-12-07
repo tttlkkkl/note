@@ -67,6 +67,7 @@ CREATE TABLE `b_classify` (
 DROP TABLE IF EXISTS `b_note`;
 CREATE TABLE `b_note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nid` int(11) NOT NULL DEFAULT 0 COMMENT '笔记数据所在的笔记本本地存储id',
   `summary` varchar(255) DEFAULT '',
   `path` char(128) NOT NULL,
   `thumbnail` varchar(255) DEFAULT '',
@@ -74,6 +75,7 @@ CREATE TABLE `b_note` (
   `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
   `author` varchar(20) DEFAULT '' COMMENT '作者',
   `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `update_time` int(11) NOT NULL DEFAULT '0' COMMENT '本地更新时间',
   `source` varchar(255) DEFAULT '' COMMENT '修改后的笔记来源',
   `title` char(140) NOT NULL DEFAULT '',
   `content` longtext NOT NULL,

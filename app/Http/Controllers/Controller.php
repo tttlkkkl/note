@@ -13,17 +13,17 @@ class Controller extends BaseController
 
     /**
      * 接口拼装函数
-     * @param int $status
+     * @param int $code
      * @param $msg
      * @param $data
      * @param string $type
      * @param null $rootNodeName
      * @return string
      */
-    public function packing($status = 0, $msg='ok', $data=[],$extend=[])
+    public function packing($code = 0, $msg='ok', $data=[],$extend=[])
     {
         $returnData = [
-            'status' => $status,
+            'code' => $code,
             'msg'    => $msg,
             'data'   => $data,
         ];

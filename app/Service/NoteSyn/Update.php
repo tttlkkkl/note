@@ -14,12 +14,15 @@ namespace App\Service\NoteSyn;
 
 use App\Service\OAuth\OAuth;
 use Illuminate\Support\Facades\DB;
+use App\Library\Tool\Common;
+
 class Update
 {
     protected static $Obj;
 
     private function __construct()
     {
+        //Common::switchRunningState();
     }
 
     /**
@@ -52,7 +55,9 @@ class Update
             $up=0;
             unset($data[$k]['group'],$v['group']);
             $v['update_time'] = time();
-            if (!(DB::table('b_note_book')->where('path', '=', $v['path'])->select('id')->get()->isEmpty())) {
+            $NoteBook=DB::table('b_note_book')->where('path', '=', $v['path'])->select('id')->first();
+            $nid=isset($NoteBook)?$NoteBook->id:0;
+            if ($nid) {
                 if (DB::table('b_note_book')->where('path', '=', $v['path'])->update($v)) {
                     SynLog::getInstance()->record("更新笔记本《{$v['name']}》,成功!",0);
                     $result['update'] += 1;
@@ -62,7 +67,7 @@ class Update
                     SynLog::getInstance()->record("更新笔记本《{$v['name']}》,失败!", 1);
                 }
             } else {
-                if (DB::table('b_note_book')->insert($v)) {
+                if ($nid=DB::table('b_note_book')->insertGetId($v)) {
                     SynLog::getInstance()->record("新建笔记本《{$v['name']}》,成功!",0);
                     $result['insert'] += 1;
                     $up=1;
@@ -72,9 +77,9 @@ class Update
                 }
             }
             if ($synNote && $up) {
-                $noteResult = $this->updateNote($v['path']);
-                foreach ($noteSynResult as $key => $v){
-                    SynLog::getInstance()->record("开始同步笔记本《{$v['name']}》中的笔记",0);
+                $noteResult = $this->updateNote($v['path'],$nid);
+                SynLog::getInstance()->record("开始同步笔记本《{$v['name']}》中的笔记",0);
+                foreach ($noteSynResult as $key => $val){
                     $noteSynResult[$key]=$noteSynResult[$key]+$noteResult[$key];
                 }
             }
@@ -86,25 +91,25 @@ class Update
 
     /**
      * 同步笔记本下面的笔记内容
-     * @param $note
+     * @param $note 笔记本路径
      * @return array|bool
      */
-    public function updateNote($note)
+    public function updateNote($notePath,$nid=0)
     {
-        if (!$note) {
+        if (!$notePath) {
             return false;
         }
-        if (is_string($note)) {
+        if (is_string($notePath)) {
             try {
-                $data = OriginPull::getInstance(OAuth::getInstance()->getAccessToken())->getNoteList($note);
+                $data = OriginPull::getInstance(OAuth::getInstance()->getAccessToken())->getNoteList($notePath);
             } catch (\Exception $E) {
                 return false;
             }
-        } elseif (is_array($note)) {
-            $data = $note;
-            unset($note);
         } else {
             return false;
+        }
+        if(!$nid){
+            $nid=DB::table('b_note_book')->where('path', '=', $notePath)->select('id')->first()->id;
         }
         $result = [
             'insert' => 0,
@@ -120,6 +125,8 @@ class Update
             $note=array_filter($note,function($val){
                 return !is_null($val);
             });
+            $note['nid']=$nid;
+            $note['update_time']=time();
             if (!DB::table('b_note')->where('path', '=', $note['path'])->select('id')->get()->isEmpty()) {
                 if (DB::table('b_note')->where('path', '=', $note['path'])->update($note)) {
                     SynLog::getInstance()->record("更新笔记 '{$note['title']}',成功!",0);
@@ -139,32 +146,5 @@ class Update
             }
         }
         return $result;
-    }
-    /**
-     * 返回请求，"后台静默"继续运行
-     * @param $callBack
-     */
-    private function switchRunningState()
-    {
-        set_time_limit(0);//设置不超时
-        ini_set('memory_limit','100M');//设置最大内存
-        ignore_user_abort(true);//脚本继续执行
-        ob_end_clean();//清除缓冲区数据
-        header("Connection: close");//关闭连接
-        header("HTTP/1.1 200 OK");//返回状态码
-        header('content-type:application/json;charset=utf8');
-        $return=array(
-            'data'=>null,
-            'msg'=>'任务已开始执行...',
-            'code'=>0
-        );
-        echo json_encode($return,JSON_UNESCAPED_UNICODE);
-        $size = ob_get_length();//缓冲数据长度
-        header("Content-Length: $size");
-        ob_end_flush();
-        ob_flush();
-        flush();
-        if (session_id()) session_write_close();
-        return fastcgi_finish_request();//关闭请求
     }
 }
