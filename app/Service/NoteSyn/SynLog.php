@@ -37,9 +37,9 @@ class SynLog
      * @param $msg
      * @param $code 0 普通提醒，1 警告，2 错误 ，3 同步异常中断 4 完成
      */
-    public function record($msg,$code)
+    public function record($msg,$code,$type=0)
     {
-        return $this->Model->insert(['code'=>$code?:0,'content'=>$msg]);
+        return $this->Model->insert(['code'=>$code?:0,'content'=>$msg,'created_at'=>date('Y-m-d H:i:s'),'type'=>$type]);
     }
 
     /**

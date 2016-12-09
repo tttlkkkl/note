@@ -24,11 +24,11 @@ CREATE TABLE `b_article` (
   `title` char(140) NOT NULL,
   `summary` varchar(255) DEFAULT NULL COMMENT '简短的描述',
   `content` text NOT NULL,
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
-  `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1正常，0异常',
   `reading` int(11) DEFAULT '0' COMMENT '阅读量',
-  `delete_time` int(11) NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '删除时间',
   `classify` int(11) NOT NULL DEFAULT '0' COMMENT '所属类目',
   `path` char(32) DEFAULT '' COMMENT 'note中path的MD5',
   PRIMARY KEY (`id`)
@@ -42,7 +42,7 @@ CREATE TABLE `b_article_con_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag_id` int(11) NOT NULL DEFAULT '0' COMMENT '标签id',
   `article_id` int(11) NOT NULL,
-  `create_time` int(11) NOT NULL DEFAULT '0' COMMENT '建立时间',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '建立时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签关联表';
 
@@ -54,8 +54,9 @@ CREATE TABLE `b_classify` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `name` char(15) NOT NULL DEFAULT '' COMMENT '类目名称',
-  `create_time` int(11) NOT NULL COMMENT '添加时间',
-  `modify_time` int(11) NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '修改时间',
+  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '删除时间',
   `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态，1正常，0不启用',
   PRIMARY KEY (`id`)
@@ -107,6 +108,8 @@ CREATE TABLE `b_syn_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(128) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '同步以及更新临时日志',
   `code` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 普通提醒，1 警告，2 错误 ，3 同步异常中断 4 完成',
+  `type`  tinyint(4) NULL DEFAULT 0 COMMENT '0，远程同步日志，1本地同步日志',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -117,9 +120,9 @@ DROP TABLE IF EXISTS `b_tag`;
 CREATE TABLE `b_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(15) NOT NULL,
-  `create_time` int(11) NOT NULL DEFAULT '0',
-  `modify_time` int(11) NOT NULL DEFAULT '0',
-  `delete_time` int(11) NOT NULL DEFAULT '0' COMMENT '删除时间',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
+  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '删除时间',
   `path` char(32) DEFAULT '' COMMENT 'note_book中path的MD5',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签信息';

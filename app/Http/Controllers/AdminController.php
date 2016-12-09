@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Service\NoteSyn\Update;
+use App\Service\NoteSyn\Transform;
 use App\Service\OAuth\OAuth;
 use Illuminate\Http\Request;
 use Log;
@@ -108,6 +109,25 @@ class AdminController extends Controller {
                 Log::error("code:{$E->getCode()}\t msg:{$msg}");
             } else {
                 $msg = 'failed';
+                Log::notice("code:{$E->getCode()}\t msg:{$msg}");
+            }
+            return $this->packing($E->getCode(), $msg);
+        }
+    }
+
+    /**
+     * 笔记本内容转化为标签
+     */
+    public function transformToTag()
+    {
+        return $this->packing(0, 'ok', Transform::getInstance()->transformNoteBookToTag());
+        try {
+        } catch (\Exception $E) {
+            if (get_class($E) == 'Exception' || env('APP_DEBUG') === true) {
+                $msg = $E->getMessage();
+                Log::error("code:{$E->getCode()}\t msg:{$msg}");
+            } else {
+                $msg = $E->getMessage();//'failed';
                 Log::notice("code:{$E->getCode()}\t msg:{$msg}");
             }
             return $this->packing($E->getCode(), $msg);

@@ -23,3 +23,4 @@ Route::get('/admin', 'AdminController@index');
 Route::get('/updateNoteBook', 'AdminController@updateNoteBook');
 Route::get('/updateNote', 'AdminController@updateNote');
 Route::get('/updateAll', 'AdminController@updateAll');
+Route::get('/transformToTag', 'AdminController@transformToTag');
