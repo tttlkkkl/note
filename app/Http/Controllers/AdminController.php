@@ -120,14 +120,34 @@ class AdminController extends Controller {
      */
     public function transformToTag()
     {
-        return $this->packing(0, 'ok', Transform::getInstance()->transformNoteBookToTag());
         try {
+            return $this->packing(0, 'ok', Transform::getInstance()->transformNoteBookToTag());
         } catch (\Exception $E) {
             if (get_class($E) == 'Exception' || env('APP_DEBUG') === true) {
                 $msg = $E->getMessage();
                 Log::error("code:{$E->getCode()}\t msg:{$msg}");
             } else {
-                $msg = $E->getMessage();//'failed';
+                $msg = 'failed';
+                Log::notice("code:{$E->getCode()}\t msg:{$msg}");
+            }
+            return $this->packing($E->getCode(), $msg);
+        }
+    }
+
+    /**
+     * 转换一个标签
+     * @return string
+     */
+    public function transformOneNote(Request $request)
+    {
+        try {
+            return $this->packing(0, 'ok', Transform::getInstance()->transformOneNote($request->input('id')));
+        } catch (\Exception $E) {
+            if (get_class($E) == 'Exception' || env('APP_DEBUG') === true) {
+                $msg = $E->getMessage();
+                Log::error("code:{$E->getCode()}\t msg:{$msg}");
+            } else {
+                $msg = 'failed';
                 Log::notice("code:{$E->getCode()}\t msg:{$msg}");
             }
             return $this->packing($E->getCode(), $msg);

@@ -11,6 +11,7 @@
 
 namespace App\Service\NoteSyn;
 
+use App\Model\Note;
 use App\Model\NoteBook;
 use App\Model\Tag;
 class Transform {
@@ -53,5 +54,19 @@ class Transform {
                 }
             }
         });
+    }
+
+    /**
+     * 转换一个笔记
+     * @param $id
+     */
+    public function transformOneNote($id)
+    {
+        $id=$id?((int)$id):0;
+        if(!$id){
+            throw new \Exception('参数错误',40121);
+        }
+        $Note = Note::find($id);
+        echo $Note->content;
     }
 }
