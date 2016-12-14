@@ -14,6 +14,7 @@ namespace App\Service\NoteSyn;
 use App\Model\Note;
 use App\Model\NoteBook;
 use App\Model\Tag;
+use App\Library\Transform\Main;
 class Transform {
     protected static $Obj;
     private function __construct() {
@@ -67,6 +68,6 @@ class Transform {
             throw new \Exception('参数错误',40121);
         }
         $Note = Note::find($id);
-        echo $Note->content;
+        Main::getInstance()->transform($Note->content);
     }
 }
