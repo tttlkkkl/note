@@ -46,7 +46,6 @@ class Transform {
                     $up=$Tag->save();
                 }else{
                     $up=Tag::create(['name'=>$val->name,'path'=>md5($val->path)]);
-                    var_dump($up);
                 }
                 if($up){
                     SynLog::getInstance()->record('转换笔记本 '.$val->name.'到系统标签库,成功!',0,1);
