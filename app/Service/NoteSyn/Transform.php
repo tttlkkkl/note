@@ -14,6 +14,7 @@ namespace App\Service\NoteSyn;
 use App\Model\Note;
 use App\Model\NoteBook;
 use App\Model\Tag;
+use App\Library\Transform\Main;
 class Transform {
     protected static $Obj;
     private function __construct() {
@@ -45,7 +46,6 @@ class Transform {
                     $up=$Tag->save();
                 }else{
                     $up=Tag::create(['name'=>$val->name,'path'=>md5($val->path)]);
-                    var_dump($up);
                 }
                 if($up){
                     SynLog::getInstance()->record('转换笔记本 '.$val->name.'到系统标签库,成功!',0,1);
@@ -67,6 +67,6 @@ class Transform {
             throw new \Exception('参数错误',40121);
         }
         $Note = Note::find($id);
-        echo $Note->content;
+        Main::getInstance()->transform($Note->content);
     }
 }
