@@ -17,12 +17,19 @@ class Main {
     private $Head;
     //主体
     private $Body;
+    //css文件暂存数组['key'=>'','style'=>[]]
+    private $cssTmp;
     //是否将样式插入节点
-    private $insertCssIntoNode;
+    private $isInsertCssIntoNode;
     //标签映射
     private static $labelMapping=[
         'para'=>'div',
         'text'=>'div'
+    ];
+    //标签类映射
+    private static $labelClassMapping=[
+        'para'=>'para',
+        'text'=>'text'
     ];
     //样式映射
     private static $cssMapping=[
@@ -33,7 +40,7 @@ class Main {
     ];
 
     private function __construct() {
-        $this->insertCssIntoNode=true;
+        $this->isInsertCssIntoNode=true;
     }
 
     /**
@@ -62,7 +69,7 @@ class Main {
     }
 
     private function execute(\SimpleXMLElement $Xml) {
-        $this->HtmlXml=new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
+        $this->HtmlXml=new \SimpleXMLIterator("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
         $Xml=new \SimpleXMLIterator($Xml->asXML());
 
         foreach($Xml->children() as $child){
@@ -90,25 +97,62 @@ class Main {
             throw new \Exception('XML分析失败!',4003);
         }
         for ($Xml->rewind();$Xml->valid();$Xml->next()){
-            echo $Xml->current()->getName(),"\n";
+            call_user_func([$this,$Xml->current()->getName()],$Xml->current());
         }
-        foreach($Xml->children() as $key=>$child){
-            if(array_key_exists($key,self::$labelMapping)){
-                $this->HtmlXml->addChild(self::$labelMapping[$key],' ');
-                if(property_exists($child,'coId')){
-                    $this->HtmlXml->children()->addAttribute('id',$child->coId);
-                }
-                if(property_exists($child,'text')){
-                    if($child->text){
-                        $this->HtmlXml->children()->addChild('div',$child->text);
-                    }else{
-                        $this->HtmlXml->children()->addChild('br');
-                    }
-                }
+    }
+
+    private function para(\SimpleXMLIterator $Xml){
+        $replace=self::$labelMapping['para']?:'div';
+        $id=property_exists($Xml,'coId')?$Xml->coId:uniqid();
+        $class=self::$labelClassMapping['para']?:['para'];
+        $css='white-space: pre-wrap;';
+
+        $this->cssTmp[$css][]=$css;
+        if(property_exists($Xml,'text')){
+            if(!$Xml->text){
+                $this->HtmlXml->addChild($replace,' ');
+                $this->HtmlXml->children()->addChild('br');
+            }else{
+                $this->HtmlXml->addChild($replace,$Xml->text);
             }
-            echo $this->HtmlXml->asXML();
-            break;
         }
+        if($this->isInsertCssIntoNode){
+            $this->HtmlXml->children()->addAttribute('style',$css);
+        }else{
+            $this->HtmlXml->children()->addAttribute('id',$id);
+            $this->HtmlXml->children()->addAttribute('class',$class);
+        }
+        echo $this->HtmlXml->asXml();
+        die;
+    }
+
+    private function lineStyle(\SimpleXMLIterator $Xml){
+
+    }
+
+    /**
+     * 记录转化过程中出现的一些错误以供分析
+     * @param $str
+     * @return boolean
+     */
+    private function log($str){
+        $path=__DIR__.'/'.'log/';
+        if(!is_dir($path)){
+            mkdir($path);
+        }
+        $fileName=$path.date('Ymd').'.log';
+        $str=date('Y-m-d H:i:s')."\t".$str;
+        return file_put_contents($fileName,$str,FILE_APPEND);
+    }
+
+    /**
+     * 无法解析的标签
+     * @param $name
+     * @param $arguments
+     */
+    public function __call($name, $arguments)
+    {
+        $this->log($name."\t".json_encode($arguments));
     }
 
 }

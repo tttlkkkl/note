@@ -7,6 +7,45 @@
     </head>
     <body>
         <para>
+            <coId>79sona1481695630644</coId>
+            <text>类摘要 ¶</text>
+            <inline-styles>
+                <font-family>
+                    <from>0</from>
+                    <to>5</to>
+                    <value>Arial</value>
+                </font-family>
+                <font-size>
+                    <from>0</from>
+                    <to>5</to>
+                    <value>15</value>
+                </font-size>
+                <color>
+                    <from>0</from>
+                    <to>3</to>
+                    <value>#793862</value>
+                </color>
+                <color>
+                    <from>3</from>
+                    <to>5</to>
+                    <value>#0000ff</value>
+                </color>
+                <back-color>
+                    <from>0</from>
+                    <to>5</to>
+                    <value>#f2f2f2</value>
+                </back-color>
+                <href>
+                    <from>3</from>
+                    <to>5</to>
+                    <value>http://php.net/manual/zh/class.simplexmlelement.php#simplexmlelement.synopsis</value>
+                </href>
+            </inline-styles>
+            <styles>
+                <align>left</align>
+            </styles>
+        </para>
+        <para>
             <coId>86foca1481474473616</coId>
             <text>加粗</text>
             <inline-styles>
@@ -547,7 +586,8 @@
             <text>分割线</text>
             <inline-styles/>
             <styles>
-                <align>left</align>
+                <align>left</align>        $this->HtmlXml->children()->addAttribute('id',$id);
+        $this->HtmlXml->children()->addAttribute('class',$class);
                 <indent>0</indent>
                 <text-indent>0</text-indent>
                 <line-height>3</line-height>
