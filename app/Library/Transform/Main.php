@@ -24,6 +24,13 @@ class Main {
         'para'=>'div',
         'text'=>'div'
     ];
+    //样式映射
+    private static $cssMapping=[
+        'bold'=>'font-weight',
+        'italic'=>'font-style',
+        'underline'=>'text-decoration',
+        'line-through'=>'text-decoration'
+    ];
 
     private function __construct() {
         $this->insertCssIntoNode=true;
@@ -47,7 +54,7 @@ class Main {
      */
     public function transform($content) {
         //$Xml = simplexml_load_string($content);
-        $Xml=simplexml_load_file('/home/m/web/note/note.xml');
+        $Xml=simplexml_load_file('../../../note.xml');
         if ($Xml === false) {
             throw new \Exception(libxml_get_last_error(), 4000);
         }
@@ -55,7 +62,7 @@ class Main {
     }
 
     private function execute(\SimpleXMLElement $Xml) {
-        $this->HtmlXml=new \SimpleXMLElement("<div id='article-warp'></div>");
+        $this->HtmlXml=new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
         $Xml=new \SimpleXMLIterator($Xml->asXML());
 
         foreach($Xml->children() as $child){
@@ -79,25 +86,27 @@ class Main {
      * @param \SimpleXMLElement $Xml
      */
     private function body(\SimpleXMLIterator $Xml) {
-        $H=new \SimpleXMLElement("<div id='article-warp'></div>");
+        if($Xml->getName() != 'body'){
+            throw new \Exception('XML分析失败!',4003);
+        }
+        for ($Xml->rewind();$Xml->valid();$Xml->next()){
+            echo $Xml->current()->getName(),"\n";
+        }
         foreach($Xml->children() as $key=>$child){
             if(array_key_exists($key,self::$labelMapping)){
-                $H->addChild(self::$labelMapping[$key],' ');
-                var_dump(property_exists($child,'coId'));
-                echo $child->cocId;
-                //var_dump($child);
+                $this->HtmlXml->addChild(self::$labelMapping[$key],' ');
                 if(property_exists($child,'coId')){
-                    $H->children()->addAttribute('id',$child->coId);
+                    $this->HtmlXml->children()->addAttribute('id',$child->coId);
                 }
                 if(property_exists($child,'text')){
                     if($child->text){
-                        $H->children()->addChild('div',iconv('gbk','utf-8','xx'));
+                        $this->HtmlXml->children()->addChild('div',$child->text);
                     }else{
-                        $H->children()->addChild('br');
+                        $this->HtmlXml->children()->addChild('br');
                     }
                 }
             }
-            echo $H->asXML();
+            echo $this->HtmlXml->asXML();
             break;
         }
     }
