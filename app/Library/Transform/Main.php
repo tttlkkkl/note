@@ -122,12 +122,17 @@ class Main {
             $this->HtmlXml->children()->addAttribute('id',$id);
             $this->HtmlXml->children()->addAttribute('class',$class);
         }
+        if(property_exists($Xml,'inline-styles') && ($Xml instanceOf \SimpleXMLIterator)){
+            $this->lineStyle($Xml->{"inline-styles"});
+        }
         echo $this->HtmlXml->asXml();
         die;
     }
 
     private function lineStyle(\SimpleXMLIterator $Xml){
-
+        foreach ($Xml->children() as $key => $child){
+            echo $child->getName()."\n";
+        }
     }
 
     /**
