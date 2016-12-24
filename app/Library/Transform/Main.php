@@ -22,25 +22,26 @@ class Main {
     //是否将样式插入节点
     private $isInsertCssIntoNode;
     //标签映射
-    private static $labelMapping=[
-        'para'=>'div',
-        'text'=>'div'
+    private static $labelMapping = [
+        'para' => 'div',
+        'text' => 'div'
     ];
     //标签类映射
-    private static $labelClassMapping=[
-        'para'=>'para',
-        'text'=>'text'
+    private static $labelClassMapping = [
+        'para' => 'para',
+        'text' => 'text'
     ];
     //样式映射
-    private static $cssMapping=[
-        'bold'=>'font-weight',
-        'italic'=>'font-style',
-        'underline'=>'text-decoration',
-        'line-through'=>'text-decoration'
+    private static $cssMapping = [
+        'bold'         => 'font-weight',
+        'italic'       => 'font-style',
+        'underline'    => 'text-decoration',
+        'line-through' => 'text-decoration',
+        'align'        => 'text-align'
     ];
 
     private function __construct() {
-        $this->isInsertCssIntoNode=true;
+        $this->isInsertCssIntoNode = true;
     }
 
     /**
@@ -61,7 +62,7 @@ class Main {
      */
     public function transform($content) {
         //$Xml = simplexml_load_string($content);
-        $Xml=simplexml_load_file('../../../note.xml');
+        $Xml = simplexml_load_file('../../../note.xml');
         if ($Xml === false) {
             throw new \Exception(libxml_get_last_error(), 4000);
         }
@@ -69,14 +70,14 @@ class Main {
     }
 
     private function execute(\SimpleXMLElement $Xml) {
-        $this->HtmlXml=new \SimpleXMLIterator("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
-        $Xml=new \SimpleXMLIterator($Xml->asXML());
+        $this->HtmlXml = new \SimpleXMLIterator("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
+        $Xml = new \SimpleXMLIterator($Xml->asXML());
 
-        foreach($Xml->children() as $child){
-            if($child->getName() == 'head'){
+        foreach ($Xml->children() as $child) {
+            if ($child->getName() == 'head') {
                 $this->head($child);
             }
-            if($child->getName()=='body'){
+            if ($child->getName() == 'body') {
                 $this->body($child);
             }
         }
@@ -93,65 +94,120 @@ class Main {
      * @param \SimpleXMLElement $Xml
      */
     private function body(\SimpleXMLIterator $Xml) {
-        if($Xml->getName() != 'body'){
-            throw new \Exception('XML分析失败!',4003);
+        if ($Xml->getName() != 'body') {
+            throw new \Exception('XML分析失败!', 4003);
         }
-        for ($Xml->rewind();$Xml->valid();$Xml->next()){
-            call_user_func([$this,$Xml->current()->getName()],$Xml->current());
+        for ($Xml->rewind(); $Xml->valid(); $Xml->next()) {
+            call_user_func([$this, $Xml->current()->getName()], $Xml->current());
         }
     }
 
-    private function para(\SimpleXMLIterator $Xml){
-        $replace=self::$labelMapping['para']?:'div';
-        $id=property_exists($Xml,'coId')?$Xml->coId:uniqid();
-        $class=self::$labelClassMapping['para']?:['para'];
-        $css='white-space: pre-wrap;';
-
-        $this->cssTmp[$css][]=$css;
-        if(property_exists($Xml,'text')){
-            if(!$Xml->text){
-                $this->HtmlXml->addChild($replace,' ');
+    private function para(\SimpleXMLIterator $Xml) {
+        $replace = self::$labelMapping['para'] ?: 'div';
+        $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
+        $class = self::$labelClassMapping['para'] ?: ['para'];
+        $lineCss = $paraCss = [];
+        if (property_exists($Xml, 'styles') && ($Xml->styles instanceOf \SimpleXMLIterator)) {
+            $paraCss = $this->styles($Xml->styles);
+            $paraCss['white-space'] = 'pre-wrap';
+        }
+        $paraCssStr = '';
+        foreach ($paraCss as $k => $v) {
+            $this->cssTmp['#' . $id][] = $k . ': ' . $v . ';';
+            $paraCssStr .= $k . ': ' . $v . ';';
+        }
+        if (property_exists($Xml, 'text')) {
+            if (!$Xml->text) {
+                $this->HtmlXml->addChild($replace, ' ');
                 $this->HtmlXml->children()->addChild('br');
-            }else{
-                $this->HtmlXml->addChild($replace,$Xml->text);
+            } else {
+                if (property_exists($Xml, 'inline-styles') && ($Xml->{"inline-styles"} instanceOf \SimpleXMLIterator)) {
+                    $lineCss = $this->lineStyles($Xml->{"inline-styles"});
+                }
+                if ($lineCss) {
+
+                } else {
+                    $this->HtmlXml->addChild($replace, $Xml->text);
+                }
             }
         }
-        if($this->isInsertCssIntoNode){
-            $this->HtmlXml->children()->addAttribute('style',$css);
-        }else{
-            $this->HtmlXml->children()->addAttribute('id',$id);
-            $this->HtmlXml->children()->addAttribute('class',$class);
+        if ($this->isInsertCssIntoNode) {
+            $this->HtmlXml->children()->addAttribute('style', $paraCssStr);
         }
-        if(property_exists($Xml,'inline-styles') && ($Xml instanceOf \SimpleXMLIterator)){
-            $this->lineStyle($Xml->{"inline-styles"},$Xml->text);
-        }
+        $this->HtmlXml->children()->addAttribute('id', $id);
+        $this->HtmlXml->children()->addAttribute('class', $class);
+        ksort($lineCss);
+        print_r($lineCss);
+        print_r($this->textCssToHtml($lineCss));
         echo $this->HtmlXml->asXml();
         die;
     }
 
-    private function lineStyle(\SimpleXMLIterator $Xml,$str){
-        $styleTmp=[];//样式暂存
-        $slipTmp=[];//切割依据
-        $strTmp=[];
-        foreach ($Xml->children() as $key => $child){
-            $C=$child->children();
-            $from=$C->from->__toString();
-            $to=$C->to->__toString();
-            $cKey=$from.'_'.$to;
-            $slipTmp[]=$from;
-            $slipTmp[]=$to;
-            $styleTmp[$cKey][$child->getName()]=$C->value->__toString().';';
+    private function textCssToHtml($lineCss) {
+        $SplStack = new \SplStack();
+        $min = $max = [];
+        foreach ($lineCss as $k => $v) {
+            foreach ($lineCss as $key => $val) {
+                if ($v['x'] > $val['x'] && $v['y'] <= $val['y'] && $v['y']<=$val['x']) {
+                    $min = $v;
+                }else{
+                    $max=$v;
+                }
+            }
         }
-        $slipTmp=array_unique($slipTmp);
-        sort($slipTmp);
-        if(array_sum($slipTmp) > mb_strlen($str)){
+        return ['min'=>$min,'max'=>$max];
+    }
 
+    /**
+     * 行css
+     *
+     * @param \SimpleXMLIterator $Xml
+     * @param string $str
+     * @return array
+     */
+    private function lineStyles(\SimpleXMLIterator $Xml) {
+        $cssTmp = [];
+        foreach ($Xml->children() as $key => $child) {
+            $x = $child->from->__toString();
+            $y = $child->to->__toString();
+            $key = $x . '_' . $y;
+            if ($child->value->__toString() == 'true') {
+                $cssTmp[$key]['styles'][$this->cssMap($child->getName())] = $child->getName();
+            } else {
+                $cssTmp[$key]['styles'][$child->getName()] = $child->value->__toString();
+            }
+            $cssTmp[$key]['x'] = $x;
+            $cssTmp[$key]['y'] = $y;
         }
-        for($i=0;$i<count($slipTmp);$i++){
+        return $cssTmp;
+    }
 
+    /**
+     * 块样式
+     *
+     * @param \SimpleXMLIterator $Xml
+     * @return array
+     */
+    private function styles(\SimpleXMLIterator $Xml) {
+        $cssTmp = [];
+        foreach ($Xml->children() as $key => $child) {
+            $cssTmp[$this->cssMap($child->getName())] = $child->__toString();
         }
-        print_r($styleTmp);
-        print_r($slipTmp);
+        return $cssTmp;
+    }
+
+    /**
+     * 一些value为true的css映射
+     * @param $css
+     * @return mixed
+     */
+    private function cssMap($css) {
+        if (self::$cssMapping[$css]) {
+            return self::$cssMapping[$css];
+        } else {
+            $this->log('css:' . "\t" . $css);
+            return $css;
+        }
     }
 
     /**
@@ -159,14 +215,14 @@ class Main {
      * @param $str
      * @return boolean
      */
-    private function log($str){
-        $path=__DIR__.'/'.'log/';
-        if(!is_dir($path)){
+    private function log($str) {
+        $path = __DIR__ . '/' . 'log/';
+        if (!is_dir($path)) {
             mkdir($path);
         }
-        $fileName=$path.date('Ymd').'.log';
-        $str=date('Y-m-d H:i:s')."\t".$str;
-        return file_put_contents($fileName,$str,FILE_APPEND);
+        $fileName = $path . date('Ymd') . '.log';
+        $str = date('Y-m-d H:i:s') . "\t" . $str;
+        return file_put_contents($fileName, $str, FILE_APPEND);
     }
 
     /**
@@ -174,9 +230,8 @@ class Main {
      * @param $name
      * @param $arguments
      */
-    public function __call($name, $arguments)
-    {
-        $this->log($name."\t".json_encode($arguments));
+    public function __call($name, $arguments) {
+        $this->log($name . "\t" . json_encode($arguments));
     }
 
 }
