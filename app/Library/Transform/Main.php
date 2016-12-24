@@ -123,16 +123,35 @@ class Main {
             $this->HtmlXml->children()->addAttribute('class',$class);
         }
         if(property_exists($Xml,'inline-styles') && ($Xml instanceOf \SimpleXMLIterator)){
-            $this->lineStyle($Xml->{"inline-styles"});
+            $this->lineStyle($Xml->{"inline-styles"},$Xml->text);
         }
         echo $this->HtmlXml->asXml();
         die;
     }
 
-    private function lineStyle(\SimpleXMLIterator $Xml){
+    private function lineStyle(\SimpleXMLIterator $Xml,$str){
+        $styleTmp=[];//样式暂存
+        $slipTmp=[];//切割依据
+        $strTmp=[];
         foreach ($Xml->children() as $key => $child){
-            echo $child->getName()."\n";
+            $C=$child->children();
+            $from=$C->from->__toString();
+            $to=$C->to->__toString();
+            $cKey=$from.'_'.$to;
+            $slipTmp[]=$from;
+            $slipTmp[]=$to;
+            $styleTmp[$cKey][$child->getName()]=$C->value->__toString().';';
         }
+        $slipTmp=array_unique($slipTmp);
+        sort($slipTmp);
+        if(array_sum($slipTmp) > mb_strlen($str)){
+
+        }
+        for($i=0;$i<count($slipTmp);$i++){
+
+        }
+        print_r($styleTmp);
+        print_r($slipTmp);
     }
 
     /**

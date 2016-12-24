@@ -404,3 +404,4 @@ java.lang.Throwable
 [7823008]  ERROR - j.psi.stubs.StubTreeLoaderImpl - Vendor: Oracle Corporation 
 [7823008]  ERROR - j.psi.stubs.StubTreeLoaderImpl - OS: Linux 
 [7823008]  ERROR - j.psi.stubs.StubTreeLoaderImpl - Last Action: EditorEnter 
+[9496071]   WARN - pl.local.NativeFileWatcherImpl - Watcher terminated with exit code 0 
