@@ -125,7 +125,24 @@ class Main {
                     $lineCss = $this->lineStyles($Xml->{"inline-styles"});
                 }
                 if ($lineCss) {
-
+                    $lineCss=$this->stylesSort($lineCss);
+                    $len=mb_strlen($Xml->text);
+                    $offset=0;//字符串偏移量
+                    foreach($lineCss as $k => $v){
+                        $this->HtmlXml->addChild($replace, ' ');
+                        if($k==0 && $v['x']!=0){
+                            $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
+                            $this->HtmlXml->children()->chiledren()->addAttribute('style',implode(';',$v['styles']));
+                        }elseif( $k<$len-1){
+                            if($v['y'] !=$lineCss[$k+1]['x']){
+                                $this->HtmlXml->children()->addChild('span',substr($Xml->text,$v['y'],$lineCss[$k+1]['x']));
+                                $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
+                            }
+                            $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
+                            $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
+                        }
+                        $this->HtmlXml->addChild('span','');
+                    }
                 } else {
                     $this->HtmlXml->addChild($replace, $Xml->text);
                 }
@@ -136,32 +153,56 @@ class Main {
         }
         $this->HtmlXml->children()->addAttribute('id', $id);
         $this->HtmlXml->children()->addAttribute('class', $class);
-        ksort($lineCss);
-        print_r($lineCss);
-        print_r($this->textCssToHtml($lineCss));
+        //ksort($lineCss);
+        //print_r($lineCss);
+        //print_r($this->textCssToHtml($lineCss));
         echo $this->HtmlXml->asXml();
         die;
     }
 
-    private function textCssToHtml($lineCss) {
+    /**
+     * 排序
+     * @param $lineCss
+     * @return array
+     */
+    private function stylesSort($lineCss) {
         $SplStack = new \SplStack();
-        $min = $max = [];
-        foreach ($lineCss as $k => $v) {
-            foreach ($lineCss as $key => $val) {
-                if ($v['x'] > $val['x'] && $v['y'] <= $val['y'] && $v['y']<=$val['x']) {
-                    $min = $v;
-                }else{
-                    $max=$v;
+        $lineCss=array_values($lineCss);
+        $tmp=[];
+        $count=count($lineCss);
+        for($i=0;$i<$count;$i++){
+            for($j=$i+1;$j<$count;$j++){
+                $tmp=$lineCss[$i];
+                if($lineCss[$i]['y'] > $lineCss[$j]['y']){
+                    $lineCss[$i]=$lineCss[$j];
+                    $lineCss[$j]=$tmp;
+                }elseif($lineCss[$i]['y']==$lineCss[$j]['y'] && $lineCss[$i]['x']<$lineCss[$j]['x']){
+                    $lineCss[$i]=$lineCss[$j];
+                    $lineCss[$j]=$tmp;
                 }
             }
         }
-        return ['min'=>$min,'max'=>$max];
+        //合并样式
+        $filterCss=['href'=>''];//不允许合并的样式
+        for($i=0;$i<$count;$i++){
+            $lineCss[$i]['styles']=array_merge($filterCss,$lineCss[$i]['styles']);
+            for($j=$i+1;$j<$count;$j++){
+                if($lineCss[$i]['x']>=$lineCss[$j]['x'] && $lineCss[$i]['y']<=$lineCss[$j]['y']){
+                    $lineCss[$i]['styles']=array_merge($lineCss[$j]['styles'],$lineCss[$i]['styles']);
+                }
+            }
+            $lineCss[$i]['styles']=array_filter($lineCss[$i]['styles']);
+        }
+        return $lineCss;
+    }
+    private function meregeCss($lineClass){
+
     }
 
     /**
      * 行css
      *
-     * @param \SimpleXMLIterator $Xml
+     * @param \SimpleXMLIterat11or $Xml
      * @param string $str
      * @return array
      */
