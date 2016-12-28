@@ -125,7 +125,9 @@ class Main {
                     $lineCss = $this->lineStyles($Xml->{"inline-styles"});
                 }
                 if ($lineCss) {
-                    $lineCss=$this->stylesSort($lineCss);
+                    $lineCss=$this->stylesSort($lineCss,$Xml->text);
+                    print_r($lineCss);
+                    die;
                     $len=mb_strlen($Xml->text);
                     $offset=0;//字符串偏移量
                     foreach($lineCss as $k => $v){
@@ -137,9 +139,10 @@ class Main {
                             if($v['y'] !=$lineCss[$k+1]['x']){
                                 $this->HtmlXml->children()->addChild('span',substr($Xml->text,$v['y'],$lineCss[$k+1]['x']));
                                 $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
+                            }else{
+                                $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
+                                $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
                             }
-                            $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
-                            $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
                         }
                         $this->HtmlXml->addChild('span','');
                     }
@@ -165,8 +168,7 @@ class Main {
      * @param $lineCss
      * @return array
      */
-    private function stylesSort($lineCss) {
-        $SplStack = new \SplStack();
+    private function stylesSort($lineCss,$text) {
         $lineCss=array_values($lineCss);
         $tmp=[];
         $count=count($lineCss);
@@ -193,10 +195,11 @@ class Main {
             }
             $lineCss[$i]['styles']=array_filter($lineCss[$i]['styles']);
         }
-        return $lineCss;
-    }
-    private function meregeCss($lineClass){
+        //字符分配
+        for($i=0;$i<$count;$i++){
 
+        }
+        return $lineCss;
     }
 
     /**
