@@ -19,6 +19,10 @@ class Main {
     private $Body;
     //css文件暂存数组['key'=>'','style'=>[]]
     private $cssTmp;
+    //list类型
+    private $listType;
+    //list信息暂存
+    private $listTmp;
     //是否将样式插入节点
     private $isInsertCssIntoNode;
     //标签映射
@@ -29,7 +33,8 @@ class Main {
     //标签类映射
     private static $labelClassMapping = [
         'para' => 'para',
-        'text' => 'text'
+        'text' => 'text',
+        'list' => 'list'
     ];
     //样式映射
     private static $cssMapping = [
@@ -37,7 +42,15 @@ class Main {
         'italic'       => 'font-style',
         'underline'    => 'text-decoration',
         'line-through' => 'text-decoration',
+        'strike'       => ['text-decoration' => 'line-through'],
+        'back-color'   => 'background-color',
         'align'        => 'text-align'
+    ];
+
+    //列表序号类型,按照level层级，循环取值
+    private $listStyleType = [
+        'ul' => ['disc', 'circle', 'square'],
+        'ol' => ['decimal', 'lower-alpha', 'lower-roman']
     ];
 
     private function __construct() {
@@ -87,7 +100,15 @@ class Main {
      * @param \SimpleXMLElement $Xml
      */
     private function head(\SimpleXMLIterator $Xml) {
-        //echo $Xml->getName();
+        $tmp = [];
+        for ($Xml->rewind(); $Xml->valid(); $Xml->next()) {
+            foreach ($Xml->current()->attributes() as $k => $v) {//遍历节点属性
+                $tmp[(string)$k] = (string)$v;
+            }
+            $this->listType[] = $tmp;
+            $tmp = [];
+        }
+        $this->listType = array_column($this->listType, 'type', 'id');
     }
 
     /**
@@ -98,152 +119,240 @@ class Main {
             throw new \Exception('XML分析失败!', 4003);
         }
         for ($Xml->rewind(); $Xml->valid(); $Xml->next()) {
-            call_user_func([$this, $Xml->current()->getName()], $Xml->current());
+            call_user_func([$this, strtoupper(str_replace('-', '_', $Xml->current()->getName()))], $Xml->current());
         }
+        echo $this->HtmlXml->asXml();
     }
 
-    private function para(\SimpleXMLIterator $Xml) {
+
+    /**
+     * 文字块解析
+     *
+     * @param \SimpleXMLIterator $Xml
+     */
+    private function PARA(\SimpleXMLIterator $Xml) {
         $replace = self::$labelMapping['para'] ?: 'div';
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
         $class = self::$labelClassMapping['para'] ?: ['para'];
-        $lineCss = $paraCss = [];
         if (property_exists($Xml, 'styles') && ($Xml->styles instanceOf \SimpleXMLIterator)) {
             $paraCss = $this->styles($Xml->styles);
             $paraCss['white-space'] = 'pre-wrap';
         }
-        $paraCssStr=$this->getCssStr($paraCss,$id);
         if (property_exists($Xml, 'text')) {
             if (!$Xml->text) {
                 $this->HtmlXml->addChild($replace, ' ');
                 $this->HtmlXml->children()->addChild('br');
             } else {
-                $this->HtmlXml->addChild($replace);
-                $currentHtmlChild=$this->HtmlXml->children();
-                if($this->isInsertCssIntoNode){
-                    $currentHtmlChild->addAttribute('style',$paraCssStr['css']);
-                }
-                $currentHtmlChild->addAttribute('id',$paraCssStr['select']);
-                $currentHtmlChild->addAttribute('class',$class);
-                if (property_exists($Xml, 'inline-styles') && ($Xml->{"inline-styles"} instanceOf \SimpleXMLIterator)) {
-                    $lineCss = $this->lineStyles($Xml->{"inline-styles"});
-                }
-                if ($lineCss) {
-                    $lineCss=$this->stylesSort($lineCss,$Xml->text);
-                    if($lineCss['com']){
-                        $currentHtmlChild->addChild('span','');
-                        $currentHtmlChild=$currentHtmlChild->children();
-                        $lineCssStr=$this->getCssStr($lineCss['com'],$id);
-                        $currentHtmlChild->addAttribute('id',$lineCssStr['select']);
-                        if($this->isInsertCssIntoNode){
-                            $currentHtmlChild->addAttribute('style',$lineCssStr['css']);
-                        }
-                    }
-                    foreach($lineCss['line'] as $k => $v){
-                        $lineCssStr=$this->getCssStr($v,$id);
-                        $currentHtmlChild->addChild('p',$v['text']?:' ');
-                        var_dump($currentHtmlChild->children());
-                        echo "\n\n=====\n\n";
-                        continue;
-                        if($this->isInsertCssIntoNode){
-                            $currentHtmlChild->getChildren()->addAttribute('style',$lineCssStr['css']);
-                        }
-                        $currentHtmlChild->getChildren()->addAttribute('id',$lineCssStr['select']);
-                    }
-                } else {
-                    $this->HtmlXml->addChild($replace, $Xml->text);
-                }
+                $this->combinationTextAndStyle($Xml, $this->HtmlXml, $replace, $id, $class, $paraCss);
             }
         }
-        if ($this->isInsertCssIntoNode) {
-           // $this->HtmlXml->children()->addAttribute('style', $paraCssStr);
-        }
-       // $this->HtmlXml->children()->addAttribute('id', $id);
-        //$this->HtmlXml->children()->addAttribute('class', $class);
-        //ksort($lineCss);
-        //print_r($lineCss);
-        //print_r($this->textCssToHtml($lineCss));
-        echo $this->HtmlXml->asXml();
-        die;
     }
 
-    private function getCssStr($css,$id){
-        if(isset($css['x']) && isset($css['y'])){
-            $id=$id.'_'.$css['x'].'_'.$css['y'];
+    private function LIST_ITEM(\SimpleXMLIterator $Xml) {
+        $attr = [];
+        foreach ($Xml->attributes() as $k => $v) {//遍历节点属性
+            $attr[(string)$k] = (string)$v;
         }
-        $id='#'.$id;
-        $cssStr='';
-        if(isset($css['styles'])){
-            $css=$css['styles'];
+        $replace = 'ul';
+        $listID = isset($attr['list-id']) ? $attr['list-id'] : uniqid();
+        $level = isset($attr['level']) ? $attr['level'] : 1;
+        if (isset($this->listType[$listID])) {
+            if ($this->listType[$listID] == 'unordered') {
+                $replace = 'ul';
+            } elseif ($this->listType[$listID] == 'ordered') {
+                $replace = 'ol';
+            }
         }
-        foreach($css as $k=>$v){
+        $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
+        $class = self::$labelClassMapping['list'] ?: ['list'];
+        if (property_exists($Xml, 'styles') && ($Xml->styles instanceOf \SimpleXMLIterator)) {
+            $paraCss = $this->styles($Xml->styles);
+        }
+        if (isset($this->listTmp[$listID][$level])) {
+            $HtmlXml = $this->listTmp[$listID][$level];
+        } else {
+            if (isset($this->listTmp[$listID][$level - 1])) {
+                $HtmlXml = $this->listTmp[$listID][$level - 1]->addChild($replace);
+            } else {
+                $HtmlXml = $this->HtmlXml->addChild($replace);
+            }
+            $HtmlXml->addAttribute('list-style-type', $this->getListStyleType($replace, $level));
+            $this->listTmp[$listID][$level] = $HtmlXml;
+        }
+        if (property_exists($Xml, 'text') && $Xml->text) {
+            $this->combinationTextAndStyle($Xml, $HtmlXml, 'li', $id, $class, $paraCss);
+        }
+    }
+
+    /**
+     * 文本样式
+     *
+     * @param \SimpleXMLIterator $Xml
+     * @param \SimpleXMLIterator $HtmlXml
+     * @param $replace
+     * @param $id
+     * @param $class
+     * @param $paraCss
+     */
+    private function combinationTextAndStyle(\SimpleXMLIterator $Xml, \SimpleXMLIterator $HtmlXml, $replace, $id, $class, $paraCss) {
+        $lineCss = [];
+        $paraCssStr = $this->getCssStr($paraCss, $id);
+        if (property_exists($Xml, 'inline-styles') && ($Xml->{"inline-styles"} instanceOf \SimpleXMLIterator)) {
+            $lineCss = $this->lineStyles($Xml->{"inline-styles"});
+        }
+        if ($lineCss) {
+            $currentHtmlChild = $HtmlXml->addChild($replace);
+            if ($this->isInsertCssIntoNode) {
+                $currentHtmlChild->addAttribute('style', $paraCssStr['css']);
+            }
+            $currentHtmlChild->addAttribute('id', $paraCssStr['select']);
+            $currentHtmlChild->addAttribute('class', $class);
+            $lineCss = $this->stylesSort($lineCss, $Xml->text);
+            if ($lineCss['com']) {
+                $currentHtmlChild = $currentHtmlChild->addChild('div', '');
+                $lineCssStr = $this->getCssStr($lineCss['com'], $id);
+                $currentHtmlChild->addAttribute('id', $lineCssStr['select']);
+                if ($this->isInsertCssIntoNode) {
+                    $currentHtmlChild->addAttribute('style', $lineCssStr['css']);
+                }
+            }
+            foreach ($lineCss['line'] as $k => $v) {
+                $lineCssStr = $this->getCssStr($v, $id);
+                if ($lineCssStr['href']) {
+                    $currentChild = $currentHtmlChild->addChild('a', $v['text'] ?: ' ');
+                    $currentChild->addAttribute('href', $lineCssStr['href']);
+                } else {
+                    $currentChild = $currentHtmlChild->addChild('span', $v['text'] ?: ' ');
+                }
+                if ($this->isInsertCssIntoNode) {
+                    $currentChild->addAttribute('style', $lineCssStr['css']);
+                }
+                $currentChild->addAttribute('id', $lineCssStr['select']);
+            }
+        } else {
+            $currentHtmlChild = $HtmlXml->addChild($replace, $Xml->text);
+            if ($this->isInsertCssIntoNode) {
+                $currentHtmlChild->addAttribute('style', $paraCssStr['css']);
+            }
+            $currentHtmlChild->addAttribute('id', $paraCssStr['select']);
+            $currentHtmlChild->addAttribute('class', $class);
+        }
+
+
+    }
+
+    /**
+     * 获取列表样式类型
+     *
+     * @param $type
+     * @param $level
+     * @return mixed
+     */
+    private function getListStyleType($type, $level) {
+        $listStyleType = isset($this->listStyleType[$type]) ? $this->listStyleType[$type] : ['none'];
+        $count = count($listStyleType);
+        $num = $level % $count;
+        if($num == 0){
+            $key=$count;
+        }else{
+            $key=$num;
+        }
+        $key--;
+        return $listStyleType[$key];
+    }
+
+    /**
+     * 获取样式字符
+     *
+     * @param $css
+     * @param $id
+     * @return array
+     */
+    private function getCssStr($css, $id) {
+        if (isset($css['x']) && isset($css['y'])) {
+            $id = $id . '_' . $css['x'] . '_' . $css['y'];
+        }
+        $id = '#' . $id;
+        $cssStr = '';
+        if (isset($css['styles'])) {
+            $css = $css['styles'];
+        }
+        $href = '';
+        foreach ($css as $k => $v) {
+            if ($k == 'href') {
+                $href = $v;
+                continue;
+            }
             $this->cssTmp[$id][] = $k . ': ' . $v;
             $cssStr .= $k . ': ' . $v . ';';
         }
         return [
-            'css'=>$cssStr,
-            'select'=>$id
+            'css'    => $cssStr,
+            'select' => $id,
+            'href'   => $href
         ];
     }
+
     /**
      * 排序
      * @param $lineCss
      * @return array
      */
-    private function stylesSort($lineCss,$text) {
-        $lineCss=array_values($lineCss);
-        $tmp=[];
-        $count=count($lineCss);
-        for($i=0;$i<$count;$i++){
-            for($j=$i+1;$j<$count;$j++){
-                $tmp=$lineCss[$i];
-                if($lineCss[$i]['y'] > $lineCss[$j]['y']){
-                    $lineCss[$i]=$lineCss[$j];
-                    $lineCss[$j]=$tmp;
-                }elseif($lineCss[$i]['y']==$lineCss[$j]['y'] && $lineCss[$i]['x']<$lineCss[$j]['x']){
-                    $lineCss[$i]=$lineCss[$j];
-                    $lineCss[$j]=$tmp;
+    private function stylesSort($lineCss, $text) {
+        $lineCss = array_values($lineCss);
+        $tmp = [];
+        $count = count($lineCss);
+        for ($i = 0; $i < $count; $i++) {
+            for ($j = $i + 1; $j < $count; $j++) {
+                $tmp = $lineCss[$i];
+                if ($lineCss[$i]['y'] > $lineCss[$j]['y']) {
+                    $lineCss[$i] = $lineCss[$j];
+                    $lineCss[$j] = $tmp;
+                } elseif ($lineCss[$i]['y'] == $lineCss[$j]['y'] && $lineCss[$i]['x'] < $lineCss[$j]['x']) {
+                    $lineCss[$i] = $lineCss[$j];
+                    $lineCss[$j] = $tmp;
                 }
             }
         }
         //合并样式
-        $filterCss=['href'=>''];//不允许合并的样式
-        for($i=0;$i<$count;$i++){
-            $lineCss[$i]['styles']=array_merge($filterCss,$lineCss[$i]['styles']);
-            for($j=$i+1;$j<$count;$j++){
-                if($lineCss[$i]['x']>=$lineCss[$j]['x'] && $lineCss[$i]['y']<=$lineCss[$j]['y']){
-                    $lineCss[$i]['styles']=array_merge($lineCss[$j]['styles'],$lineCss[$i]['styles']);
+        $filterCss = ['href' => ''];//不允许合并的样式
+        for ($i = 0; $i < $count; $i++) {
+            $lineCss[$i]['styles'] = array_merge($filterCss, $lineCss[$i]['styles']);
+            for ($j = $i + 1; $j < $count; $j++) {
+                if ($lineCss[$i]['x'] >= $lineCss[$j]['x'] && $lineCss[$i]['y'] <= $lineCss[$j]['y']) {
+                    $lineCss[$i]['styles'] = array_merge($lineCss[$j]['styles'], $lineCss[$i]['styles']);
                 }
             }
-            $lineCss[$i]['styles']=array_filter($lineCss[$i]['styles']);
+            $lineCss[$i]['styles'] = array_filter($lineCss[$i]['styles']);
         }
         //字符起切割分配
-        $tmp=$com=[];
-        $len=mb_strlen($text);
-        $start=0;//切割初始位置
-        foreach($lineCss as $k=>$v){
-            if($v['x']>$start && isset($$lineCss[$k+1])){
-                $tmp[]=[
-                    'text'=>mb_substr($text,$start,$v['x']-$start)
+        $tmp = $com = [];
+        $len = mb_strlen($text);
+        $start = 0;//切割初始位置
+        foreach ($lineCss as $k => $v) {
+            if ($v['x'] > $start && isset($lineCss[$k + 1])) {
+                $tmp[] = [
+                    'text' => mb_substr($text, $start, $v['x'] - $start)
                 ];
-            }else{
-                $v['text']=mb_substr($text,$start,$v['y']-$start);
-                $tmp[]=$v;
+            } else {
+                $v['text'] = mb_substr($text, $start, $v['y'] - $start);
+                $tmp[] = $v;
             }
-            $start=$v['y'];
+            $start = $v['y'];
         }
-        $end=end($tmp);
-        if($end['y']-$end['x']==$len && $end['text']==''){
-            $com=$end;
+        $end = end($tmp);
+        if ($end['y'] - $end['x'] == $len && $end['text'] == '') {
+            $com = $end;
             array_pop($tmp);
         }
         return [
-            'line'=>$tmp,
-            'com'=>$com
+            'line' => $tmp,
+            'com'  => $com
         ];
     }
 
     /**
-     * 行css
+     * 行css解析
      *
      * @param \SimpleXMLIterat11or $Xml
      * @param string $str
@@ -255,10 +364,11 @@ class Main {
             $x = $child->from->__toString();
             $y = $child->to->__toString();
             $key = $x . '_' . $y;
+            $css = $this->cssMap($child->getName());
             if ($child->value->__toString() == 'true') {
-                $cssTmp[$key]['styles'][$this->cssMap($child->getName())] = $child->getName();
+                $cssTmp[$key]['styles'][$css['key']] = isset($css['value']) ? $css['value'] : $child->getName();
             } else {
-                $cssTmp[$key]['styles'][$child->getName()] = $child->value->__toString();
+                $cssTmp[$key]['styles'][$css['key']] = $child->value->__toString();
             }
             $cssTmp[$key]['x'] = $x;
             $cssTmp[$key]['y'] = $y;
@@ -267,7 +377,7 @@ class Main {
     }
 
     /**
-     * 块样式
+     * 块样式解析
      *
      * @param \SimpleXMLIterator $Xml
      * @return array
@@ -275,7 +385,8 @@ class Main {
     private function styles(\SimpleXMLIterator $Xml) {
         $cssTmp = [];
         foreach ($Xml->children() as $key => $child) {
-            $cssTmp[$this->cssMap($child->getName())] = $child->__toString();
+            $css = $this->cssMap($child->getName());
+            $cssTmp[$css['key']] = isset($css['valueForce']) ? $css['valueForce'] : $child->__toString();
         }
         return $cssTmp;
     }
@@ -286,11 +397,15 @@ class Main {
      * @return mixed
      */
     private function cssMap($css) {
-        if (self::$cssMapping[$css]) {
-            return self::$cssMapping[$css];
+        if (isset(self::$cssMapping[$css])) {
+            if (is_array(self::$cssMapping[$css])) {
+                return ['valueForce' => reset(self::$cssMapping[$css]), 'key' => key(self::$cssMapping[$css])];
+            } else {
+                return ['key' => self::$cssMapping[$css], 'value' => $css];
+            }
         } else {
-            $this->log('css:' . "\t" . $css);
-            return $css;
+            $this->log('css mapping not find:' . "\t" . $css);
+            return ['key' => $css, 'value' => null];
         }
     }
 
@@ -305,7 +420,7 @@ class Main {
             mkdir($path);
         }
         $fileName = $path . date('Ymd') . '.log';
-        $str = date('Y-m-d H:i:s') . "\t" . $str;
+        $str = date('Y-m-d H:i:s') . "\t" . $str . "\n";
         return file_put_contents($fileName, $str, FILE_APPEND);
     }
 

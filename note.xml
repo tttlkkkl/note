@@ -1,55 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<note xmlns="https://note.youdao.com" file-version="0" schema-version="1.0.2">
+<?xml version="1.0"?>
+<note xmlns="https://note.youdao.com" schema-version="1.0.2" file-version="0">
     <head>
         <list id="3wxay1481474837376" type="unordered"/>
         <list id="70kdhk1481474905630" type="ordered"/>
         <list id="38zpbk1481476247507" type="ordered"/>
     </head>
     <body>
-        <para>
-            <coId>79sona1481695630644</coId>
-            <text>类摘要 ¶</text>
-            <inline-styles>
-                <bold>
-                    <from>0</from>
-                    <to>2</to>
-                    <value>true</value>
-                </bold>
-                <font-family>
-                    <from>0</from>
-                    <to>5</to>
-                    <value>Arial</value>
-                </font-family>
-                <font-size>
-                    <from>0</from>
-                    <to>5</to>
-                    <value>15</value>
-                </font-size>
-                <color>
-                    <from>0</from>
-                    <to>3</to>
-                    <value>#793862</value>
-                </color>
-                <color>
-                    <from>3</from>
-                    <to>4</to>
-                    <value>#0000ff</value>
-                </color>
-                <back-color>
-                    <from>0</from>
-                    <to>5</to>
-                    <value>#f2f2f2</value>
-                </back-color>
-                <href>
-                    <from>3</from>
-                    <to>5</to>
-                    <value>http://php.net/manual/zh/class.simplexmlelement.php#simplexmlelement.synopsis</value>
-                </href>
-            </inline-styles>
-            <styles>
-                <align>left</align>
-            </styles>
-        </para>
         <para>
             <coId>86foca1481474473616</coId>
             <text>加粗</text>
@@ -60,12 +16,6 @@
                     <value>true</value>
                 </bold>
             </inline-styles>
-            <styles/>
-        </para>
-        <para>
-            <coId>16seis1481474644660</coId>
-            <text/>
-            <inline-styles/>
             <styles/>
         </para>
         <para>
@@ -136,7 +86,7 @@
         </para>
         <para>
             <coId>93npgt1481474620241</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles/>
         </para>
@@ -150,6 +100,12 @@
                     <value>#FF0000</value>
                 </color>
             </inline-styles>
+            <styles/>
+        </para>
+        <para>
+            <coId>16seis1481474644660</coId>
+            <text></text>
+            <inline-styles/>
             <styles/>
         </para>
         <para>
@@ -171,7 +127,7 @@
         </para>
         <para>
             <coId>30auzo1481474681835</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -193,7 +149,7 @@
         </para>
         <para>
             <coId>27yafq1481474711577</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>justify</align>
@@ -215,7 +171,7 @@
         </para>
         <para>
             <coId>31kgwd1481474741779</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -237,7 +193,7 @@
         </para>
         <para>
             <coId>35yutw1481474756594</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>center</align>
@@ -248,7 +204,7 @@
         </para>
         <para>
             <coId>49aztd1481474771204</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>center</align>
@@ -270,7 +226,7 @@
         </para>
         <para>
             <coId>89thbs1481474785271</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>right</align>
@@ -292,7 +248,7 @@
         </para>
         <para>
             <coId>7fuci1481474809436</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -314,7 +270,7 @@
         </para>
         <para>
             <coId>90ydgy1481474830027</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -356,9 +312,64 @@
                 <line-height>1.5</line-height>
             </styles>
         </list-item>
+        <list-item level="2" list-id="3wxay1481474837376">
+            <coId>19uoyk1481709577173</coId>
+            <text>休息休息</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="3" list-id="3wxay1481474837376">
+            <coId>94qwcs1481709597650</coId>
+            <text>dddd</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="4" list-id="3wxay1481474837376">
+            <coId>93wljy1481709604113</coId>
+            <text>xxxx</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="5" list-id="3wxay1481474837376">
+            <coId>57ayxx1481709724128</coId>
+            <text>斯柯达就不能</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="6" list-id="3wxay1481474837376">
+            <coId>55ekzr1481709731728</coId>
+            <text>跨境电商</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
         <para>
             <coId>55bvkl1481474853401</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -402,7 +413,7 @@
         </para>
         <para>
             <coId>86bckp1481474897701</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -446,7 +457,7 @@
         </list-item>
         <para>
             <coId>52ezjz1481474940292</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -502,7 +513,13 @@
         <list-item level="4" list-id="38zpbk1481476247507">
             <coId>18ztqf1481476280105</coId>
             <text>等级4</text>
-            <inline-styles/>
+            <inline-styles>
+                <color>
+                    <from>0</from>
+                    <to>3</to>
+                    <value>#FF0000</value>
+                </color>
+            </inline-styles>
             <styles>
                 <align>left</align>
                 <indent>0</indent>
@@ -521,9 +538,59 @@
                 <line-height>1.5</line-height>
             </styles>
         </list-item>
+        <list-item level="6" list-id="38zpbk1481476247507">
+            <coId>31goeb1482909973956</coId>
+            <text>等级6</text>
+            <inline-styles>
+                <back-color>
+                    <from>0</from>
+                    <to>3</to>
+                    <value>#FFFF00</value>
+                </back-color>
+            </inline-styles>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="7" list-id="38zpbk1481476247507">
+            <coId>28vris1482909992980</coId>
+            <text>等级7</text>
+            <inline-styles>
+                <color>
+                    <from>0</from>
+                    <to>3</to>
+                    <value>#3F3F3F</value>
+                </color>
+                <back-color>
+                    <from>0</from>
+                    <to>3</to>
+                    <value>#FFFF00</value>
+                </back-color>
+            </inline-styles>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
+        <list-item level="6" list-id="38zpbk1481476247507">
+            <coId>97bxdj1482909997364</coId>
+            <text>等级66</text>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>1.5</line-height>
+            </styles>
+        </list-item>
         <list-item level="2" list-id="38zpbk1481476247507">
             <coId>17yrup1481694598888</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -556,7 +623,7 @@
         </para>
         <para>
             <coId>49alir1481474976946</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -572,7 +639,7 @@
         </table>
         <para>
             <coId>2ulee1481474987197</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -591,8 +658,7 @@
             <text>分割线</text>
             <inline-styles/>
             <styles>
-                <align>left</align>        $this->HtmlXml->children()->addAttribute('id',$id);
-        $this->HtmlXml->children()->addAttribute('class',$class);
+                <align>left</align>
                 <indent>0</indent>
                 <text-indent>0</text-indent>
                 <line-height>3</line-height>
@@ -604,7 +670,7 @@
         </horizontal-line>
         <para>
             <coId>65qfbc1481475116892</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -615,7 +681,7 @@
         </para>
         <para>
             <coId>6iiez1481475128055</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -653,7 +719,7 @@
         </para>
         <para>
             <coId>14vlxx1481475155766</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -669,7 +735,7 @@
         </image>
         <para>
             <coId>1lsoh1481475249247</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -680,7 +746,7 @@
         </para>
         <para>
             <coId>20tpre1481475253192</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -699,7 +765,7 @@
         </attach>
         <para>
             <coId>88etqg1481475295681</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -2415,7 +2481,7 @@
         </para>
         <para>
             <coId>17xxsz1481475300134</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -2426,7 +2492,7 @@
         </para>
         <para>
             <coId>2szgv1481695666838</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -2607,7 +2673,7 @@
         </para>
         <para>
             <coId>19cnao1481695684842</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles/>
         </para>
@@ -2968,7 +3034,7 @@
         </para>
         <para>
             <coId>13fumv1481695684845</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles/>
         </para>
@@ -3552,7 +3618,7 @@
         </para>
         <para>
             <coId>49vqjz1481695684852</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles/>
         </para>
@@ -3585,7 +3651,7 @@
         </para>
         <para>
             <coId>54akss1481695667286</coId>
-            <text/>
+            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
