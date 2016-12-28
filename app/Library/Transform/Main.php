@@ -111,40 +111,43 @@ class Main {
             $paraCss = $this->styles($Xml->styles);
             $paraCss['white-space'] = 'pre-wrap';
         }
-        $paraCssStr = '';
-        foreach ($paraCss as $k => $v) {
-            $this->cssTmp['#' . $id][] = $k . ': ' . $v . ';';
-            $paraCssStr .= $k . ': ' . $v . ';';
-        }
+        $paraCssStr=$this->getCssStr($paraCss,$id);
         if (property_exists($Xml, 'text')) {
             if (!$Xml->text) {
                 $this->HtmlXml->addChild($replace, ' ');
                 $this->HtmlXml->children()->addChild('br');
             } else {
+                $this->HtmlXml->addChild($replace);
+                $currentHtmlChild=$this->HtmlXml->children();
+                if($this->isInsertCssIntoNode){
+                    $currentHtmlChild->addAttribute('style',$paraCssStr['css']);
+                }
+                $currentHtmlChild->addAttribute('id',$paraCssStr['select']);
+                $currentHtmlChild->addAttribute('class',$class);
                 if (property_exists($Xml, 'inline-styles') && ($Xml->{"inline-styles"} instanceOf \SimpleXMLIterator)) {
                     $lineCss = $this->lineStyles($Xml->{"inline-styles"});
                 }
                 if ($lineCss) {
                     $lineCss=$this->stylesSort($lineCss,$Xml->text);
-                    print_r($lineCss);
-                    die;
-                    $len=mb_strlen($Xml->text);
-                    $offset=0;//字符串偏移量
-                    foreach($lineCss as $k => $v){
-                        $this->HtmlXml->addChild($replace, ' ');
-                        if($k==0 && $v['x']!=0){
-                            $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
-                            $this->HtmlXml->children()->chiledren()->addAttribute('style',implode(';',$v['styles']));
-                        }elseif( $k<$len-1){
-                            if($v['y'] !=$lineCss[$k+1]['x']){
-                                $this->HtmlXml->children()->addChild('span',substr($Xml->text,$v['y'],$lineCss[$k+1]['x']));
-                                $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
-                            }else{
-                                $this->HtmlXml->children()->addChild('span',substr($Xml->text,0,$v['x']));
-                                $this->HtmlXml->children()->children()->addAttribute('style',implode(';',$v['styles']));
-                            }
+                    if($lineCss['com']){
+                        $currentHtmlChild->addChild('span','');
+                        $currentHtmlChild=$currentHtmlChild->children();
+                        $lineCssStr=$this->getCssStr($lineCss['com'],$id);
+                        $currentHtmlChild->addAttribute('id',$lineCssStr['select']);
+                        if($this->isInsertCssIntoNode){
+                            $currentHtmlChild->addAttribute('style',$lineCssStr['css']);
                         }
-                        $this->HtmlXml->addChild('span','');
+                    }
+                    foreach($lineCss['line'] as $k => $v){
+                        $lineCssStr=$this->getCssStr($v,$id);
+                        $currentHtmlChild->addChild('p',$v['text']?:' ');
+                        var_dump($currentHtmlChild->children());
+                        echo "\n\n=====\n\n";
+                        continue;
+                        if($this->isInsertCssIntoNode){
+                            $currentHtmlChild->getChildren()->addAttribute('style',$lineCssStr['css']);
+                        }
+                        $currentHtmlChild->getChildren()->addAttribute('id',$lineCssStr['select']);
                     }
                 } else {
                     $this->HtmlXml->addChild($replace, $Xml->text);
@@ -152,10 +155,10 @@ class Main {
             }
         }
         if ($this->isInsertCssIntoNode) {
-            $this->HtmlXml->children()->addAttribute('style', $paraCssStr);
+           // $this->HtmlXml->children()->addAttribute('style', $paraCssStr);
         }
-        $this->HtmlXml->children()->addAttribute('id', $id);
-        $this->HtmlXml->children()->addAttribute('class', $class);
+       // $this->HtmlXml->children()->addAttribute('id', $id);
+        //$this->HtmlXml->children()->addAttribute('class', $class);
         //ksort($lineCss);
         //print_r($lineCss);
         //print_r($this->textCssToHtml($lineCss));
@@ -163,6 +166,24 @@ class Main {
         die;
     }
 
+    private function getCssStr($css,$id){
+        if(isset($css['x']) && isset($css['y'])){
+            $id=$id.'_'.$css['x'].'_'.$css['y'];
+        }
+        $id='#'.$id;
+        $cssStr='';
+        if(isset($css['styles'])){
+            $css=$css['styles'];
+        }
+        foreach($css as $k=>$v){
+            $this->cssTmp[$id][] = $k . ': ' . $v;
+            $cssStr .= $k . ': ' . $v . ';';
+        }
+        return [
+            'css'=>$cssStr,
+            'select'=>$id
+        ];
+    }
     /**
      * 排序
      * @param $lineCss
@@ -195,11 +216,30 @@ class Main {
             }
             $lineCss[$i]['styles']=array_filter($lineCss[$i]['styles']);
         }
-        //字符分配
-        for($i=0;$i<$count;$i++){
-
+        //字符起切割分配
+        $tmp=$com=[];
+        $len=mb_strlen($text);
+        $start=0;//切割初始位置
+        foreach($lineCss as $k=>$v){
+            if($v['x']>$start && isset($$lineCss[$k+1])){
+                $tmp[]=[
+                    'text'=>mb_substr($text,$start,$v['x']-$start)
+                ];
+            }else{
+                $v['text']=mb_substr($text,$start,$v['y']-$start);
+                $tmp[]=$v;
+            }
+            $start=$v['y'];
         }
-        return $lineCss;
+        $end=end($tmp);
+        if($end['y']-$end['x']==$len && $end['text']==''){
+            $com=$end;
+            array_pop($tmp);
+        }
+        return [
+            'line'=>$tmp,
+            'com'=>$com
+        ];
     }
 
     /**
