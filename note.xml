@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<note xmlns="https://note.youdao.com" schema-version="1.0.2" file-version="0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<note xmlns="https://note.youdao.com" file-version="0" schema-version="1.0.2">
     <head>
         <list id="3wxay1481474837376" type="unordered"/>
         <list id="70kdhk1481474905630" type="ordered"/>
@@ -7,7 +7,7 @@
     </head>
     <body>
         <para>
-            <coId>86foca1481474473616</coId>
+            <coId>67ubts1482933744051</coId>
             <text>加粗</text>
             <inline-styles>
                 <bold>
@@ -19,7 +19,7 @@
             <styles/>
         </para>
         <para>
-            <coId>68jboy1481474541116</coId>
+            <coId>61jasc1482933755331</coId>
             <text>加粗斜体</text>
             <inline-styles>
                 <bold>
@@ -36,7 +36,7 @@
             <styles/>
         </para>
         <para>
-            <coId>87fzgh1481474555181</coId>
+            <coId>30sodv1482933755331</coId>
             <text>加粗斜体下滑线</text>
             <inline-styles>
                 <bold>
@@ -58,7 +58,7 @@
             <styles/>
         </para>
         <para>
-            <coId>98hshj1481474597035</coId>
+            <coId>48cwwg1482933755331</coId>
             <text>加粗斜体下划线删除线</text>
             <inline-styles>
                 <bold>
@@ -85,13 +85,13 @@
             <styles/>
         </para>
         <para>
-            <coId>93npgt1481474620241</coId>
-            <text></text>
+            <coId>47tjyj1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles/>
         </para>
         <para>
-            <coId>53sbmi1481474620385</coId>
+            <coId>37lbhk1482933755331</coId>
             <text>颜色</text>
             <inline-styles>
                 <color>
@@ -103,13 +103,13 @@
             <styles/>
         </para>
         <para>
-            <coId>16seis1481474644660</coId>
-            <text></text>
+            <coId>54cbso1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles/>
         </para>
         <para>
-            <coId>18ayac1481474644847</coId>
+            <coId>79nmtl1482933755331</coId>
             <text>背景色</text>
             <inline-styles>
                 <back-color>
@@ -126,8 +126,8 @@
             </styles>
         </para>
         <para>
-            <coId>30auzo1481474681835</coId>
-            <text></text>
+            <coId>53xykd1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -137,7 +137,7 @@
             </styles>
         </para>
         <para>
-            <coId>64zucg1481474681967</coId>
+            <coId>78zcgl1482933755331</coId>
             <text>两端对齐</text>
             <inline-styles/>
             <styles>
@@ -148,8 +148,8 @@
             </styles>
         </para>
         <para>
-            <coId>27yafq1481474711577</coId>
-            <text></text>
+            <coId>86utdi1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>justify</align>
@@ -159,7 +159,7 @@
             </styles>
         </para>
         <para>
-            <coId>90nvii1481474711729</coId>
+            <coId>19ctfu1482933755331</coId>
             <text>左对齐</text>
             <inline-styles/>
             <styles>
@@ -170,8 +170,8 @@
             </styles>
         </para>
         <para>
-            <coId>31kgwd1481474741779</coId>
-            <text></text>
+            <coId>17rwgj1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -181,7 +181,7 @@
             </styles>
         </para>
         <para>
-            <coId>53dqsv1481474741924</coId>
+            <coId>86auvx1482933755331</coId>
             <text>居中对齐</text>
             <inline-styles/>
             <styles>
@@ -192,8 +192,8 @@
             </styles>
         </para>
         <para>
-            <coId>35yutw1481474756594</coId>
-            <text></text>
+            <coId>9hbnk1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>center</align>
@@ -203,8 +203,8 @@
             </styles>
         </para>
         <para>
-            <coId>49aztd1481474771204</coId>
-            <text></text>
+            <coId>71wldp1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>center</align>
@@ -214,7 +214,7 @@
             </styles>
         </para>
         <para>
-            <coId>13pigc1481474773616</coId>
+            <coId>76ugzg1482933755331</coId>
             <text>右对齐</text>
             <inline-styles/>
             <styles>
@@ -225,8 +225,8 @@
             </styles>
         </para>
         <para>
-            <coId>89thbs1481474785271</coId>
-            <text></text>
+            <coId>55lqzu1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>right</align>
@@ -236,7 +236,7 @@
             </styles>
         </para>
         <para>
-            <coId>65hgot1481474785957</coId>
+            <coId>14ntvz1482933755331</coId>
             <text>左缩进</text>
             <inline-styles/>
             <styles>
@@ -247,8 +247,8 @@
             </styles>
         </para>
         <para>
-            <coId>7fuci1481474809436</coId>
-            <text></text>
+            <coId>62kstc1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -258,7 +258,7 @@
             </styles>
         </para>
         <para>
-            <coId>81ghdf1481474810071</coId>
+            <coId>43xhkm1482933755331</coId>
             <text>右缩进</text>
             <inline-styles/>
             <styles>
@@ -269,8 +269,8 @@
             </styles>
         </para>
         <para>
-            <coId>90ydgy1481474830027</coId>
-            <text></text>
+            <coId>33fhjp1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -280,7 +280,7 @@
             </styles>
         </para>
         <list-item level="1" list-id="3wxay1481474837376">
-            <coId>72zwod1481474830477</coId>
+            <coId>69oqqq1482933755331</coId>
             <text>列表</text>
             <inline-styles/>
             <styles>
@@ -291,7 +291,7 @@
             </styles>
         </list-item>
         <list-item level="1" list-id="3wxay1481474837376">
-            <coId>14qwng1481474843069</coId>
+            <coId>68fbwc1482933755331</coId>
             <text>列表1</text>
             <inline-styles/>
             <styles>
@@ -302,7 +302,7 @@
             </styles>
         </list-item>
         <list-item level="1" list-id="3wxay1481474837376">
-            <coId>38ivso1481474847216</coId>
+            <coId>35zxxk1482933755331</coId>
             <text>列表2</text>
             <inline-styles/>
             <styles>
@@ -313,7 +313,7 @@
             </styles>
         </list-item>
         <list-item level="2" list-id="3wxay1481474837376">
-            <coId>19uoyk1481709577173</coId>
+            <coId>72laoa1482933755331</coId>
             <text>休息休息</text>
             <inline-styles/>
             <styles>
@@ -324,7 +324,7 @@
             </styles>
         </list-item>
         <list-item level="3" list-id="3wxay1481474837376">
-            <coId>94qwcs1481709597650</coId>
+            <coId>42gtpb1482933755331</coId>
             <text>dddd</text>
             <inline-styles/>
             <styles>
@@ -335,7 +335,7 @@
             </styles>
         </list-item>
         <list-item level="4" list-id="3wxay1481474837376">
-            <coId>93wljy1481709604113</coId>
+            <coId>33agpu1482933755331</coId>
             <text>xxxx</text>
             <inline-styles/>
             <styles>
@@ -346,7 +346,7 @@
             </styles>
         </list-item>
         <list-item level="5" list-id="3wxay1481474837376">
-            <coId>57ayxx1481709724128</coId>
+            <coId>30xgum1482933755331</coId>
             <text>斯柯达就不能</text>
             <inline-styles/>
             <styles>
@@ -357,7 +357,7 @@
             </styles>
         </list-item>
         <list-item level="6" list-id="3wxay1481474837376">
-            <coId>55ekzr1481709731728</coId>
+            <coId>65gmcv1482933755331</coId>
             <text>跨境电商</text>
             <inline-styles/>
             <styles>
@@ -368,8 +368,8 @@
             </styles>
         </list-item>
         <para>
-            <coId>55bvkl1481474853401</coId>
-            <text></text>
+            <coId>83fynz1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -379,7 +379,7 @@
             </styles>
         </para>
         <para>
-            <coId>54glgz1481474858459</coId>
+            <coId>80qjdg1482933755331</coId>
             <text>1.手写</text>
             <inline-styles/>
             <styles>
@@ -390,7 +390,7 @@
             </styles>
         </para>
         <para>
-            <coId>3rbft1481474863603</coId>
+            <coId>26fwyd1482933755331</coId>
             <text>2.手写2</text>
             <inline-styles/>
             <styles>
@@ -401,7 +401,7 @@
             </styles>
         </para>
         <para>
-            <coId>64ymlm1481474865144</coId>
+            <coId>0nnne1482933755331</coId>
             <text>3.手写3</text>
             <inline-styles/>
             <styles>
@@ -412,8 +412,8 @@
             </styles>
         </para>
         <para>
-            <coId>86bckp1481474897701</coId>
-            <text></text>
+            <coId>74ndej1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -423,7 +423,7 @@
             </styles>
         </para>
         <list-item level="1" list-id="70kdhk1481474905630">
-            <coId>51yiwm1481474897839</coId>
+            <coId>94gcmz1482933755331</coId>
             <text>自动列表</text>
             <inline-styles/>
             <styles>
@@ -434,7 +434,7 @@
             </styles>
         </list-item>
         <list-item level="1" list-id="70kdhk1481474905630">
-            <coId>86pkjn1481474927287</coId>
+            <coId>45ncrp1482933755331</coId>
             <text>自动列表1</text>
             <inline-styles/>
             <styles>
@@ -445,7 +445,7 @@
             </styles>
         </list-item>
         <list-item level="1" list-id="70kdhk1481474905630">
-            <coId>41gzzu1481474933501</coId>
+            <coId>24jleg1482933755331</coId>
             <text>自动列表2</text>
             <inline-styles/>
             <styles>
@@ -456,8 +456,8 @@
             </styles>
         </list-item>
         <para>
-            <coId>52ezjz1481474940292</coId>
-            <text></text>
+            <coId>60ksss1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -467,7 +467,7 @@
             </styles>
         </para>
         <list-item level="1" list-id="38zpbk1481476247507">
-            <coId>89uzlv1481476244647</coId>
+            <coId>20qqkx1482933755331</coId>
             <text>有等级的列表</text>
             <inline-styles/>
             <styles>
@@ -478,7 +478,7 @@
             </styles>
         </list-item>
         <list-item level="1" list-id="38zpbk1481476247507">
-            <coId>85jxyh1481476258533</coId>
+            <coId>48uubs1482933755331</coId>
             <text>有等级的列表</text>
             <inline-styles/>
             <styles>
@@ -489,7 +489,7 @@
             </styles>
         </list-item>
         <list-item level="2" list-id="38zpbk1481476247507">
-            <coId>24pxgo1481476269795</coId>
+            <coId>3bvhu1482933755331</coId>
             <text>等级2</text>
             <inline-styles/>
             <styles>
@@ -500,7 +500,7 @@
             </styles>
         </list-item>
         <list-item level="3" list-id="38zpbk1481476247507">
-            <coId>70kqfd1481476275567</coId>
+            <coId>5phjp1482933755331</coId>
             <text>等级3</text>
             <inline-styles/>
             <styles>
@@ -511,7 +511,7 @@
             </styles>
         </list-item>
         <list-item level="4" list-id="38zpbk1481476247507">
-            <coId>18ztqf1481476280105</coId>
+            <coId>34vmit1482933755331</coId>
             <text>等级4</text>
             <inline-styles>
                 <color>
@@ -528,7 +528,7 @@
             </styles>
         </list-item>
         <list-item level="5" list-id="38zpbk1481476247507">
-            <coId>76qvxj1481476286484</coId>
+            <coId>76zena1482933755331</coId>
             <text>等级5</text>
             <inline-styles/>
             <styles>
@@ -539,7 +539,7 @@
             </styles>
         </list-item>
         <list-item level="6" list-id="38zpbk1481476247507">
-            <coId>31goeb1482909973956</coId>
+            <coId>17fjwg1482933755331</coId>
             <text>等级6</text>
             <inline-styles>
                 <back-color>
@@ -556,7 +556,7 @@
             </styles>
         </list-item>
         <list-item level="7" list-id="38zpbk1481476247507">
-            <coId>28vris1482909992980</coId>
+            <coId>4uhob1482933755331</coId>
             <text>等级7</text>
             <inline-styles>
                 <color>
@@ -578,7 +578,7 @@
             </styles>
         </list-item>
         <list-item level="6" list-id="38zpbk1481476247507">
-            <coId>97bxdj1482909997364</coId>
+            <coId>26hvbd1482933755331</coId>
             <text>等级66</text>
             <inline-styles/>
             <styles>
@@ -589,8 +589,8 @@
             </styles>
         </list-item>
         <list-item level="2" list-id="38zpbk1481476247507">
-            <coId>17yrup1481694598888</coId>
-            <text></text>
+            <coId>23hmed1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -600,7 +600,7 @@
             </styles>
         </list-item>
         <para>
-            <coId>81felp1481474944410</coId>
+            <coId>59oqfx1482933755331</coId>
             <text>行距</text>
             <inline-styles/>
             <styles>
@@ -611,19 +611,8 @@
             </styles>
         </para>
         <para>
-            <coId>1dfev1481474955995</coId>
+            <coId>68cloz1482933755331</coId>
             <text>行距</text>
-            <inline-styles/>
-            <styles>
-                <align>left</align>
-                <indent>0</indent>
-                <text-indent>0</text-indent>
-                <line-height>3</line-height>
-            </styles>
-        </para>
-        <para>
-            <coId>49alir1481474976946</coId>
-            <text></text>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -633,13 +622,29 @@
             </styles>
         </para>
         <table>
-            <coId>85hdfs1481475065760</coId>
+            <coId>30vlrg1482933755331</coId>
+            <content>{"cells":[{"textColor":"#1F497D","value":"有样式的表格"},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"backColor":"#FFFF00","value":"哈哈"},{"value":""},{"value":""},{"value":""},{"value":"嘻嘻"}],"widths":[70,70,70,358],"heights":[23,23,59]}</content>
+            <styles/>
+        </table>
+        <para>
+            <coId>32urrh1482933755331</coId>
+            <text/>
+            <inline-styles/>
+            <styles>
+                <align>left</align>
+                <indent>0</indent>
+                <text-indent>0</text-indent>
+                <line-height>3</line-height>
+            </styles>
+        </para>
+        <table>
+            <coId>3ilhc1482933755331</coId>
             <content>{"cells":[{"value":"表格"},{"value":"表格1"},{"value":"表格2"},{"value":"表格3"}],"widths":[70,70],"heights":[23,23]}</content>
             <styles/>
         </table>
         <para>
-            <coId>2ulee1481474987197</coId>
-            <text></text>
+            <coId>10clin1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -649,12 +654,12 @@
             </styles>
         </para>
         <table>
-            <coId>59jghh1481476401494</coId>
-            <content>{"cells":[{"value":"有样式的表格"},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""}],"widths":[70,70,70,358],"heights":[23,23,59]}</content>
+            <coId>30vlrg1482933755331</coId>
+            <content>{"cells":[{"textColor":"#1F497D","value":"有样式的表格"},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"backColor":"#FFFF00","value":"哈哈"},{"value":""},{"value":""},{"value":""},{"value":"嘻嘻"}],"widths":[70,70,70,358],"heights":[23,23,59]}</content>
             <styles/>
         </table>
         <para>
-            <coId>77gzze1481475111924</coId>
+            <coId>74npxh1482933755331</coId>
             <text>分割线</text>
             <inline-styles/>
             <styles>
@@ -665,12 +670,12 @@
             </styles>
         </para>
         <horizontal-line>
-            <coId>32jbmy1481475116892</coId>
+            <coId>94fkeg1482933755331</coId>
             <styles/>
         </horizontal-line>
         <para>
-            <coId>65qfbc1481475116892</coId>
-            <text></text>
+            <coId>49bmdr1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -680,8 +685,8 @@
             </styles>
         </para>
         <para>
-            <coId>6iiez1481475128055</coId>
-            <text></text>
+            <coId>19dceh1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -691,7 +696,7 @@
             </styles>
         </para>
         <para>
-            <coId>40paye1481475128202</coId>
+            <coId>35mjvr1482933755331</coId>
             <text>http://www.baidu.com</text>
             <inline-styles>
                 <underline>
@@ -717,25 +722,14 @@
                 <line-height>3</line-height>
             </styles>
         </para>
-        <para>
-            <coId>14vlxx1481475155766</coId>
-            <text></text>
-            <inline-styles/>
-            <styles>
-                <align>left</align>
-                <indent>0</indent>
-                <text-indent>0</text-indent>
-                <line-height>3</line-height>
-            </styles>
-        </para>
         <image>
-            <coId>98htvx1481475249247</coId>
-            <source>WEBRESOURCE6dfd7f6104dc133398966af9d3469950</source>
+            <coId>85jiyb1482933755331</coId>
+            <source>WEBRESOURCE0289db2655a662bf9a84607f9b58fee2</source>
             <styles/>
         </image>
         <para>
-            <coId>1lsoh1481475249247</coId>
-            <text></text>
+            <coId>6ccqt1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -745,8 +739,8 @@
             </styles>
         </para>
         <para>
-            <coId>20tpre1481475253192</coId>
-            <text></text>
+            <coId>33sobe1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -756,7 +750,7 @@
             </styles>
         </para>
         <attach>
-            <coId>85mdax1481475295681</coId>
+            <coId>20qwib1482933755331</coId>
             <source>CFA59914BA924395914764945851102C</source>
             <resource>WEBRESOURCEf419bb89226b14fb493ac7b9d25d1eed</resource>
             <filename>stub.c</filename>
@@ -764,8 +758,8 @@
             <styles/>
         </attach>
         <para>
-            <coId>88etqg1481475295681</coId>
-            <text></text>
+            <coId>48cdoq1482933755331</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -775,7 +769,7 @@
             </styles>
         </para>
         <para>
-            <coId>43gbol1481695629142</coId>
+            <coId>13sjqg1482933755331</coId>
             <text>内容复制</text>
             <inline-styles/>
             <styles>
@@ -786,7 +780,7 @@
             </styles>
         </para>
         <para>
-            <coId>39spah1481695629318</coId>
+            <coId>66uldz1482933755331</coId>
             <text>简介 ¶</text>
             <inline-styles>
                 <font-family>
@@ -828,7 +822,7 @@
             </styles>
         </para>
         <para>
-            <coId>29trkx1481695630643</coId>
+            <coId>92ixbq1482933755331</coId>
             <text>Represents an element in an XML document.</text>
             <inline-styles>
                 <font-family>
@@ -857,7 +851,7 @@
             </styles>
         </para>
         <para>
-            <coId>79sona1481695630644</coId>
+            <coId>0fgvf1482933755331</coId>
             <text>类摘要 ¶</text>
             <inline-styles>
                 <font-family>
@@ -896,7 +890,7 @@
             </styles>
         </para>
         <para>
-            <coId>37dmkz1481695630646</coId>
+            <coId>46lmbm1482933755332</coId>
             <text>SimpleXMLElement implements Traversable {</text>
             <inline-styles>
                 <bold>
@@ -940,7 +934,7 @@
             </styles>
         </para>
         <para>
-            <coId>75xbel1481695630646</coId>
+            <coId>94tlqw1482933755332</coId>
             <text>/* 方法 */</text>
             <inline-styles>
                 <font-family>
@@ -969,7 +963,7 @@
             </styles>
         </para>
         <para>
-            <coId>79tgem1481695630653</coId>
+            <coId>59wovs1482933755332</coId>
             <text>final public __construct ( string $data [, int $options = 0 [, bool $data_is_url = false [, string $ns = "" [, bool$is_prefix = false ]]]] )</text>
             <inline-styles>
                 <font-family>
@@ -1193,7 +1187,7 @@
             </styles>
         </para>
         <para>
-            <coId>10nosp1481695630657</coId>
+            <coId>35rkdu1482933755332</coId>
             <text>public void addAttribute ( string $name [, string $value [, string $namespace ]] )</text>
             <inline-styles>
                 <font-family>
@@ -1342,7 +1336,7 @@
             </styles>
         </para>
         <para>
-            <coId>67egca1481695630660</coId>
+            <coId>19baoy1482933755332</coId>
             <text>public SimpleXMLElement addChild ( string $name [, string $value [, string $namespace ]] )</text>
             <inline-styles>
                 <font-family>
@@ -1491,7 +1485,7 @@
             </styles>
         </para>
         <para>
-            <coId>31aigf1481695630665</coId>
+            <coId>56kllt1482933755332</coId>
             <text>public mixed asXML ([ string $filename ] )</text>
             <inline-styles>
                 <font-family>
@@ -1580,7 +1574,7 @@
             </styles>
         </para>
         <para>
-            <coId>16ntza1481695630667</coId>
+            <coId>64kpru1482933755332</coId>
             <text>public SimpleXMLElement attributes ([ string $ns = NULL [, bool $is_prefix = false ]] )</text>
             <inline-styles>
                 <font-family>
@@ -1719,7 +1713,7 @@
             </styles>
         </para>
         <para>
-            <coId>73qiua1481695630672</coId>
+            <coId>87fklz1482933755332</coId>
             <text>public SimpleXMLElement children ([ string $ns [, bool $is_prefix = false ]] )</text>
             <inline-styles>
                 <font-family>
@@ -1843,7 +1837,7 @@
             </styles>
         </para>
         <para>
-            <coId>28sanu1481695630673</coId>
+            <coId>45spnz1482933755332</coId>
             <text>public int count ( void )</text>
             <inline-styles>
                 <font-family>
@@ -1902,7 +1896,7 @@
             </styles>
         </para>
         <para>
-            <coId>59rydi1481695630675</coId>
+            <coId>8luwj1482933755332</coId>
             <text>public array getDocNamespaces ([ bool $recursive = false [, bool $from_root = true ]] )</text>
             <inline-styles>
                 <font-family>
@@ -2031,7 +2025,7 @@
             </styles>
         </para>
         <para>
-            <coId>54kvte1481695630677</coId>
+            <coId>34nexe1482933755332</coId>
             <text>public string getName ( void )</text>
             <inline-styles>
                 <font-family>
@@ -2090,7 +2084,7 @@
             </styles>
         </para>
         <para>
-            <coId>16qdtw1481695630678</coId>
+            <coId>65gtsr1482933755332</coId>
             <text>public array getNamespaces ([ bool $recursive = false ] )</text>
             <inline-styles>
                 <font-family>
@@ -2184,7 +2178,7 @@
             </styles>
         </para>
         <para>
-            <coId>46jjos1481695630680</coId>
+            <coId>52lmct1482933755332</coId>
             <text>public bool registerXPathNamespace ( string $prefix , string $ns )</text>
             <inline-styles>
                 <font-family>
@@ -2303,7 +2297,7 @@
             </styles>
         </para>
         <para>
-            <coId>2frwn1481695630681</coId>
+            <coId>19rxay1482933755332</coId>
             <text>public string __toString ( void )</text>
             <inline-styles>
                 <font-family>
@@ -2362,7 +2356,7 @@
             </styles>
         </para>
         <para>
-            <coId>45gzma1481695630682</coId>
+            <coId>53oasx1482933755332</coId>
             <text>public array xpath ( string $path )</text>
             <inline-styles>
                 <font-family>
@@ -2451,7 +2445,7 @@
             </styles>
         </para>
         <para>
-            <coId>27hirx1481695630683</coId>
+            <coId>31pidl1482933755332</coId>
             <text>}</text>
             <inline-styles>
                 <font-family>
@@ -2480,8 +2474,8 @@
             </styles>
         </para>
         <para>
-            <coId>17xxsz1481475300134</coId>
-            <text></text>
+            <coId>3ifot1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -2491,8 +2485,8 @@
             </styles>
         </para>
         <para>
-            <coId>2szgv1481695666838</coId>
-            <text></text>
+            <coId>51dtqg1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
@@ -2502,7 +2496,7 @@
             </styles>
         </para>
         <para>
-            <coId>52naox1481695667062</coId>
+            <coId>9peqj1482933755332</coId>
             <text>protected static $Obj;</text>
             <inline-styles>
                 <italic>
@@ -2544,7 +2538,7 @@
             </styles>
         </para>
         <para>
-            <coId>54qbky1481695684840</coId>
+            <coId>25hnpj1482933755332</coId>
             <text>private $HtmlXml;</text>
             <inline-styles>
                 <font-family>
@@ -2576,7 +2570,7 @@
             <styles/>
         </para>
         <para>
-            <coId>14xmiz1481695684841</coId>
+            <coId>83kucy1482933755332</coId>
             <text>private $css;</text>
             <inline-styles>
                 <font-family>
@@ -2608,7 +2602,7 @@
             <styles/>
         </para>
         <para>
-            <coId>99esmo1481695684841</coId>
+            <coId>45hmzy1482933755332</coId>
             <text>private function __construct() {</text>
             <inline-styles>
                 <font-family>
@@ -2645,7 +2639,7 @@
             <styles/>
         </para>
         <para>
-            <coId>19rqjn1481695684842</coId>
+            <coId>59diyu1482933755332</coId>
             <text>}</text>
             <inline-styles>
                 <font-family>
@@ -2672,13 +2666,13 @@
             <styles/>
         </para>
         <para>
-            <coId>19cnao1481695684842</coId>
-            <text></text>
+            <coId>25adem1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles/>
         </para>
         <para>
-            <coId>28hqqz1481695684842</coId>
+            <coId>94qvdq1482933755332</coId>
             <text>/**</text>
             <inline-styles>
                 <font-family>
@@ -2705,7 +2699,7 @@
             <styles/>
         </para>
         <para>
-            <coId>80gcmu1481695684843</coId>
+            <coId>9zptv1482933755332</coId>
             <text> * 获取实例</text>
             <inline-styles>
                 <font-family>
@@ -2737,7 +2731,7 @@
             <styles/>
         </para>
         <para>
-            <coId>65cmdp1481695684843</coId>
+            <coId>38yyyc1482933755332</coId>
             <text> * @return Main</text>
             <inline-styles>
                 <font-family>
@@ -2769,7 +2763,7 @@
             <styles/>
         </para>
         <para>
-            <coId>36dvvh1481695684843</coId>
+            <coId>16nras1482933755332</coId>
             <text> */</text>
             <inline-styles>
                 <font-family>
@@ -2796,7 +2790,7 @@
             <styles/>
         </para>
         <para>
-            <coId>96zrvh1481695684843</coId>
+            <coId>13jvje1482933755332</coId>
             <text>public static function getInstance(){</text>
             <inline-styles>
                 <font-family>
@@ -2833,7 +2827,7 @@
             <styles/>
         </para>
         <para>
-            <coId>86ghow1481695684844</coId>
+            <coId>41yvel1482933755332</coId>
             <text>    if(!self::$Obj){</text>
             <inline-styles>
                 <italic>
@@ -2885,7 +2879,7 @@
             <styles/>
         </para>
         <para>
-            <coId>60qywl1481695684844</coId>
+            <coId>10cben1482933755332</coId>
             <text>        self::$Obj=new self();</text>
             <inline-styles>
                 <italic>
@@ -2937,7 +2931,7 @@
             <styles/>
         </para>
         <para>
-            <coId>14iytj1481695684844</coId>
+            <coId>53skpr1482933755332</coId>
             <text>    }</text>
             <inline-styles>
                 <font-family>
@@ -2964,7 +2958,7 @@
             <styles/>
         </para>
         <para>
-            <coId>56frjs1481695684845</coId>
+            <coId>49bzyj1482933755332</coId>
             <text>    return self::$Obj;</text>
             <inline-styles>
                 <italic>
@@ -3006,7 +3000,7 @@
             <styles/>
         </para>
         <para>
-            <coId>3xssw1481695684845</coId>
+            <coId>89pjrz1482933755332</coId>
             <text>}</text>
             <inline-styles>
                 <font-family>
@@ -3033,13 +3027,13 @@
             <styles/>
         </para>
         <para>
-            <coId>13fumv1481695684845</coId>
-            <text></text>
+            <coId>59qjwb1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles/>
         </para>
         <para>
-            <coId>26xjsm1481695684845</coId>
+            <coId>28rfua1482933755332</coId>
             <text>/**</text>
             <inline-styles>
                 <font-family>
@@ -3066,7 +3060,7 @@
             <styles/>
         </para>
         <para>
-            <coId>12hdxj1481695684845</coId>
+            <coId>75zksv1482933755332</coId>
             <text> * xml 转换为html</text>
             <inline-styles>
                 <font-family>
@@ -3103,7 +3097,7 @@
             <styles/>
         </para>
         <para>
-            <coId>78rbho1481695684846</coId>
+            <coId>61cwgv1482933755332</coId>
             <text> * @param $content</text>
             <inline-styles>
                 <font-family>
@@ -3130,7 +3124,7 @@
             <styles/>
         </para>
         <para>
-            <coId>49jmtv1481695684846</coId>
+            <coId>13pznd1482933755332</coId>
             <text> * @return string</text>
             <inline-styles>
                 <font-family>
@@ -3157,7 +3151,7 @@
             <styles/>
         </para>
         <para>
-            <coId>12jhcw1481695684846</coId>
+            <coId>15duvb1482933755332</coId>
             <text> */</text>
             <inline-styles>
                 <font-family>
@@ -3184,7 +3178,7 @@
             <styles/>
         </para>
         <para>
-            <coId>25yseg1481695684847</coId>
+            <coId>91btbt1482933755332</coId>
             <text>public function transform($content){</text>
             <inline-styles>
                 <italic>
@@ -3236,7 +3230,7 @@
             <styles/>
         </para>
         <para>
-            <coId>59vuop1481695684847</coId>
+            <coId>66rdvi1482933755332</coId>
             <text>    echo $content;</text>
             <inline-styles>
                 <italic>
@@ -3283,7 +3277,7 @@
             <styles/>
         </para>
         <para>
-            <coId>36gipp1481695684848</coId>
+            <coId>37vean1482933755332</coId>
             <text>    $Xml=simplexml_load_string($content);</text>
             <inline-styles>
                 <italic>
@@ -3345,7 +3339,7 @@
             <styles/>
         </para>
         <para>
-            <coId>70twzd1481695684848</coId>
+            <coId>2zsui1482933755332</coId>
             <text>    if($Xml===false){</text>
             <inline-styles>
                 <font-family>
@@ -3392,7 +3386,7 @@
             <styles/>
         </para>
         <para>
-            <coId>52nymw1481695684850</coId>
+            <coId>51mmki1482933755332</coId>
             <text>        throw new \Exception(libxml_get_last_error(),4000);</text>
             <inline-styles>
                 <font-family>
@@ -3449,7 +3443,7 @@
             <styles/>
         </para>
         <para>
-            <coId>86tmoc1481695684851</coId>
+            <coId>30xshm1482933755332</coId>
             <text>    }</text>
             <inline-styles>
                 <font-family>
@@ -3476,7 +3470,7 @@
             <styles/>
         </para>
         <para>
-            <coId>89qkhz1481695684851</coId>
+            <coId>22wmeh1482933755332</coId>
             <text>    $this-&gt;head($Xml-&gt;note-&gt;head);</text>
             <inline-styles>
                 <font-family>
@@ -3538,7 +3532,7 @@
             <styles/>
         </para>
         <para>
-            <coId>99qkok1481695684851</coId>
+            <coId>42pbxy1482933755332</coId>
             <text>}</text>
             <inline-styles>
                 <font-family>
@@ -3565,7 +3559,7 @@
             <styles/>
         </para>
         <para>
-            <coId>8rvpp1481695684852</coId>
+            <coId>7wkyy1482933755332</coId>
             <text>private function head($Xml){</text>
             <inline-styles>
                 <italic>
@@ -3617,13 +3611,13 @@
             <styles/>
         </para>
         <para>
-            <coId>49vqjz1481695684852</coId>
-            <text></text>
+            <coId>11ijmq1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles/>
         </para>
         <para>
-            <coId>64flfn1481695684852</coId>
+            <coId>46mnfg1482933755332</coId>
             <text>}</text>
             <inline-styles>
                 <font-family>
@@ -3650,8 +3644,8 @@
             <styles/>
         </para>
         <para>
-            <coId>54akss1481695667286</coId>
-            <text></text>
+            <coId>46dpts1482933755332</coId>
+            <text/>
             <inline-styles/>
             <styles>
                 <align>left</align>
