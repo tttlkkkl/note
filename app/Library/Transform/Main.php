@@ -7,6 +7,8 @@
  * author :李华 yehong0000@163.com
  */
 namespace App\Library\Transform;
+use App\Library\Transform\Attachment\Image;
+use App\Library\Transform\Attachment\File;
 class Main {
     protected static $Obj;
     //HTML文档
@@ -25,6 +27,8 @@ class Main {
     private $listTmp;
     //是否将样式插入节点
     private $isInsertCssIntoNode;
+    //附件保存路径
+    private $attachmentPath;
     //标签映射
     private static $labelMapping = [
         'para' => 'div',
@@ -35,7 +39,7 @@ class Main {
         'para' => 'para',//块
         'text' => 'text',//文办
         'list' => 'list',//列表
-        'hr'=>'horizontal-line',//分割线
+        'hr'   => 'horizontal-line',//分割线
     ];
     //样式映射
     private static $cssMapping = [
@@ -46,8 +50,9 @@ class Main {
         'strike'       => ['text-decoration' => 'line-through'],
         'back-color'   => 'background-color',
         'align'        => 'text-align',
-        'textColor'=>'color',
-        'backColor'=>'background-color'
+        'textColor'    => 'color',
+        'backColor'    => 'background-color',
+        'indent'       => 'text-indent'
     ];
 
     //列表序号类型,按照level层级，循环取值
@@ -87,6 +92,10 @@ class Main {
 
     private function execute(\SimpleXMLElement $Xml) {
         $this->HtmlXml = new \SimpleXMLIterator("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><div id='article-warp'></div>");
+        $c = $this->HtmlXml->addChild('link');
+        $c->addAttribute('rel', 'stylesheet');
+        $c->addAttribute('type', 'text/css');
+        $c->addAttribute('href', 'note.css');
         $Xml = new \SimpleXMLIterator($Xml->asXML());
 
         foreach ($Xml->children() as $child) {
@@ -134,17 +143,17 @@ class Main {
      * @param \SimpleXMLIterator $Xml
      */
     private function PARA(\SimpleXMLIterator $Xml) {
-        $replace = isset(self::$labelMapping['para']) ?self::$labelMapping['para']: 'div';
+        $replace = isset(self::$labelMapping['para']) ? self::$labelMapping['para'] : 'div';
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
-        $class = isset(self::$labelClassMapping['para']) ?self::$labelClassMapping['para']: 'para';
+        $class = isset(self::$labelClassMapping['para']) ? self::$labelClassMapping['para'] : 'para';
         if (property_exists($Xml, 'styles') && ($Xml->styles instanceOf \SimpleXMLIterator)) {
             $paraCss = $this->styles($Xml->styles);
             $paraCss['white-space'] = 'pre-wrap';
         }
         if (property_exists($Xml, 'text')) {
-            if (!$Xml->text) {
-                $this->HtmlXml->addChild($replace, ' ');
-                $this->HtmlXml->children()->addChild('br');
+            if (!$Xml->text->__toString()) {
+                $currentXml = $this->HtmlXml->addChild($replace, ' ');
+                $currentXml->addChild('br');
             } else {
                 $this->combinationTextAndStyle($Xml, $this->HtmlXml, $replace, $id, $class, $paraCss);
             }
@@ -167,7 +176,7 @@ class Main {
             }
         }
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
-        $class = isset(self::$labelClassMapping['list']) ?self::$labelClassMapping['list']: 'list';
+        $class = isset(self::$labelClassMapping['list']) ? self::$labelClassMapping['list'] : 'list';
         if (property_exists($Xml, 'styles') && ($Xml->styles instanceOf \SimpleXMLIterator)) {
             $paraCss = $this->styles($Xml->styles);
         }
@@ -192,14 +201,14 @@ class Main {
      *
      * @param \SimpleXMLIterator $Xml
      */
-    private function HORIZONTAL_LINE(\SimpleXMLIterator $Xml){
+    private function HORIZONTAL_LINE(\SimpleXMLIterator $Xml) {
         $replace = 'hr';
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
-        $class = isset(self::$labelClassMapping['hr']) ?self::$labelClassMapping['hr']: ['hr'];
-        $HtmlXml=$this->HtmlXml->addChild($replace);
-        $HtmlXml->addAttribute('id',$id);
-        $HtmlXml->addAttribute('class',$class);
-        $HtmlXml->addAttribute('style','clear:both;');
+        $class = isset(self::$labelClassMapping['hr']) ? self::$labelClassMapping['hr'] : ['hr'];
+        $HtmlXml = $this->HtmlXml->addChild($replace);
+        $HtmlXml->addAttribute('id', $id);
+        $HtmlXml->addAttribute('class', $class);
+        $HtmlXml->addAttribute('style', 'clear:both;');
     }
 
     /**
@@ -207,51 +216,75 @@ class Main {
      *
      * @param \SimpleXMLIterator $Xml
      */
-    private function TABLE(\SimpleXMLIterator $Xml){
+    private function TABLE(\SimpleXMLIterator $Xml) {
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
-        $class = isset(self::$labelClassMapping['table']) ?self::$labelClassMapping['table']: 'table';
-        $content=json_decode($Xml->content,true);
-        $tableXml=$this->HtmlXml->addChild('table');
-        $tabCss=[
-            'table-layout'=>'fixed',
-            'border-collapse'=>'collapse',
-            'border'=>'1px solid #ccc'
+        $class = isset(self::$labelClassMapping['table']) ? self::$labelClassMapping['table'] : 'table';
+        $content = json_decode($Xml->content, true);
+        $tableXml = $this->HtmlXml->addChild('table');
+        $tabCss = [
+            'table-layout'    => 'fixed',
+            'border-collapse' => 'collapse',
+            'border'          => '1px solid #ccc'
         ];
-        if(isset($content['widths']) && $width=array_sum($content['widths'])){
-            $tabCss['width']=$width;
+        if (isset($content['widths']) && $width = array_sum($content['widths'])) {
+            $tabCss['width'] = $width;
         }
-        $css=$this->getCssStr($tabCss,$id);
-        $tableXml->addAttribute('id',$id);
-        $tableXml->addAttribute('class',$class);
-        $tableXml->addAttribute('style',$css['css']);
-        $tBodyXml=$tableXml->addChild('tbody');
-        $tds=count($content['widths'])?:1;
-        $trXml=$tBodyXml->addChild('tr');
-        foreach($content['cells'] as $k =>$v){
-            if(!$tds%($k+1)){
-                $trXml=$tBodyXml->addChild('tr');
+        $css = $this->getCssStr($tabCss, $id);
+        $tableXml->addAttribute('id', $id);
+        $tableXml->addAttribute('class', $class);
+        if ($this->isInsertCssIntoNode) {
+            $tableXml->addAttribute('style', $css['css']);
+        }
+        $tBodyXml = $tableXml->addChild('tbody');
+        if (count($content['cells']) == count($content['widths']) * count($content['heights'])) {
+            $tds = count($content['widths']);
+        } else {
+            $tds = 1;
+        }
+        $cells = array_chunk($content['cells'], $tds);
+        foreach ($cells as $sK => $sV) {
+            $trXml = $tBodyXml->addChild('tr');
+            foreach ($sV as $k => $v) {
+                $tdCss = [
+                    'word-wrap' => 'break-word'
+                ];
+                if (isset($content['widths'][$k])) {
+                    $tdCss['width'] = $content['widths'][$k];
+                }
+                if (isset($content['heights'][$sK])) {
+                    $tdCss['height'] = $content['heights'][$sK];
+                }
+                $value = $v['value'];
+                unset($v['value']);
+                foreach ($v as $key => $val) {
+                    $cssMap = $this->cssMap($key);
+                    $tdCss[$cssMap['key']] = isset($cssMap['valueForce']) ? $cssMap['valueForce'] : $val;
+                }
+                $tdXml = $trXml->addChild('td', $value ?: '');
+                $css = $this->getCssStr($tdCss, $id, '_td_' . $k);
+                $tdXml->addAttribute('id', $css['select']);
+                if ($this->isInsertCssIntoNode) {
+                    $tdXml->addAttribute('style', $css['css']);
+                }
             }
-            $tdCss=[
-                'word-wrap'=>'break-word'
-            ];
-            if(isset($content['widths'][$k])){
-                $tdCss['width']=$content['widths'][$k];
-            }
-            if(isset($content['heights'][$k])){
-                $tdCss['height']=$content['heights'][$k];
-            }
-            $value=$v['value'];
-            unset($v['value']);
-            foreach($v as $key=>$val){
-                $cssMap=$this->cssMap($key);
-                $tdCss[$cssMap['key']]=isset($cssMap['valueForce'])?$cssMap['valueForce']:$val;
-            }
-            $tdXml=$trXml->addChild('td',$value?:'');
-            $css=$this->getCssStr($tdCss,$id,'_td_'.$k);
-            $tdXml->addAttribute('id',$css['select']);
-            $tdXml->addAttribute('style',$css['css']);
         }
     }
+
+    /**
+     * 图片
+     *
+     * @param \SimpleXMLIterator $Xml
+     */
+    private function IMAGE(\SimpleXMLIterator $Xml) {
+        $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
+        $source=$Xml->source->__toString();
+        $image=$this->HtmlXml->addChild('img');
+        $image->addAttribute('id',$id);
+        $imageCss=[
+            'cursor'=>'pointer'
+        ];
+    }
+
     /**
      * 文本样式
      *
@@ -277,7 +310,8 @@ class Main {
             $currentHtmlChild->addAttribute('class', $class);
             $lineCss = $this->stylesSort($lineCss, $Xml->text);
             if ($lineCss['com']) {
-                $currentHtmlChild = $currentHtmlChild->addChild('div', '');isset(self::$labelMapping['hr']) ?self::$labelMapping['hr']: 'hr';
+                $currentHtmlChild = $currentHtmlChild->addChild('div', '');
+                isset(self::$labelMapping['hr']) ? self::$labelMapping['hr'] : 'hr';
                 $lineCssStr = $this->getCssStr($lineCss['com'], $id);
                 $currentHtmlChild->addAttribute('id', $lineCssStr['select']);
                 if ($this->isInsertCssIntoNode) {
@@ -318,10 +352,10 @@ class Main {
         $listStyleType = isset($this->listStyleType[$type]) ? $this->listStyleType[$type] : ['none'];
         $count = count($listStyleType);
         $num = $level % $count;
-        if($num == 0){
-            $key=$count;
-        }else{
-            $key=$num;
+        if ($num == 0) {
+            $key = $count;
+        } else {
+            $key = $num;
         }
         $key--;
         return $listStyleType[$key];
@@ -470,7 +504,7 @@ class Main {
                 return ['key' => self::$cssMapping[$css], 'value' => $css];
             }
         } else {
-            $this->log('css mapping not find:' . "\t" . $css);
+            self::log('css mapping not find:' . "\t" . $css);
             return ['key' => $css, 'value' => null];
         }
     }
@@ -480,7 +514,7 @@ class Main {
      * @param $str
      * @return boolean
      */
-    private function log($str) {
+    public static function log($str) {
         $path = __DIR__ . '/' . 'log/';
         if (!is_dir($path)) {
             mkdir($path);
@@ -496,7 +530,7 @@ class Main {
      * @param $arguments
      */
     public function __call($name, $arguments) {
-        $this->log($name . "\t" . json_encode($arguments));
+        self::log($name . "\t" . json_encode($arguments));
     }
 
 }

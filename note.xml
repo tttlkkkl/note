@@ -7,6 +7,12 @@
     </head>
     <body>
         <para>
+            <coId>47tjyj1482933755331</coId>
+            <text/>
+            <inline-styles/>
+            <styles/>
+        </para>
+        <para>
             <coId>67ubts1482933744051</coId>
             <text>加粗</text>
             <inline-styles>
@@ -621,11 +627,6 @@
                 <line-height>3</line-height>
             </styles>
         </para>
-        <table>
-            <coId>30vlrg1482933755331</coId>
-            <content>{"cells":[{"textColor":"#1F497D","value":"有样式的表格"},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"value":""},{"backColor":"#FFFF00","value":"哈哈"},{"value":""},{"value":""},{"value":""},{"value":"嘻嘻"}],"widths":[70,70,70,358],"heights":[23,23,59]}</content>
-            <styles/>
-        </table>
         <para>
             <coId>32urrh1482933755331</coId>
             <text/>

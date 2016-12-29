@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Service\NoteSyn\Update;
 use App\Service\NoteSyn\Transform;
+use App\Library\Transform\Attachment\Image;
 use App\Service\OAuth\OAuth;
 use Illuminate\Http\Request;
 use Log;
@@ -31,7 +32,8 @@ class AdminController extends Controller {
      * 管理首页
      */
     public function index() {
-        dd(getenv('SERVER_PROTOCOL'));
+        $image=Image::getInstance(OAuth::getInstance()->getAccessToken(),'');
+        $image->pullFileFromRemote('WEBRESOURCE0289db2655a662bf9a84607f9b58fee2');
     }
 
     /**

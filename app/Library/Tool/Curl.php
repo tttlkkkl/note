@@ -90,6 +90,7 @@ class Curl
      */
     static private function execute($url,$data,$type=1,&$header)
     {
+        echo $url;
         $cu = curl_init();#开始curl会话
         if( !function_exists("curl_init") &&
             !function_exists("curl_setopt") &&
@@ -108,12 +109,19 @@ class Curl
         }elseif($type == 3){
             curl_setopt($cu,CURLOPT_HTTPHEADER,array("X-HTTP-Method-Override: put"));//设置HTTP头信息
             curl_setopt($cu, CURLOPT_POSTFIELDS,$data);
+        }elseif($type == 3){
+            if(is_array($header)){
+                curl_setopt($cu,CURLOPT_HTTPHEADER,$header);//设置HTTP头信息
+            }
         }
         curl_setopt($cu, CURLOPT_URL, $url);
         curl_setopt($cu, CURLOPT_TIMEOUT, self::$timeOut);
         curl_setopt($cu, CURLOPT_HEADER, true);//http头
         curl_setopt($cu, CURLOPT_RETURNTRANSFER, TRUE);#内容做为变量存储
         $tmp = curl_exec($cu);
+        var_dump($tmp);
+        print_r(curl_getinfo($cu));
+        die;
         if (!curl_error($cu) && curl_getinfo($cu, CURLINFO_HTTP_CODE) == '200') {
             $headerSize = curl_getinfo($cu, CURLINFO_HEADER_SIZE);#取得头长度
             $header = substr($tmp, 0, $headerSize);#获得头内容
