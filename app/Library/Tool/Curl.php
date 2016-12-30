@@ -90,7 +90,6 @@ class Curl
      */
     static private function execute($url,$data,$type=1,&$header)
     {
-        echo $url;
         $cu = curl_init();#开始curl会话
         if( !function_exists("curl_init") &&
             !function_exists("curl_setopt") &&
@@ -119,9 +118,6 @@ class Curl
         curl_setopt($cu, CURLOPT_HEADER, true);//http头
         curl_setopt($cu, CURLOPT_RETURNTRANSFER, TRUE);#内容做为变量存储
         $tmp = curl_exec($cu);
-        var_dump($tmp);
-        print_r(curl_getinfo($cu));
-        die;
         if (!curl_error($cu) && curl_getinfo($cu, CURLINFO_HTTP_CODE) == '200') {
             $headerSize = curl_getinfo($cu, CURLINFO_HEADER_SIZE);#取得头长度
             $header = substr($tmp, 0, $headerSize);#获得头内容
