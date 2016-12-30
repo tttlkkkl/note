@@ -67,8 +67,6 @@ class Transform {
             throw new \Exception('参数错误',40121);
         }
         $Note = Note::find($id);
-        echo $Note->content;
-        die;
-        Main::getInstance()->transform($Note->content);
+        $content=Main::getInstance()->transform($Note->content);
     }
 }

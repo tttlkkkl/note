@@ -82,12 +82,17 @@ class Main {
      * @return string
      */
     public function transform($content) {
-        //$Xml = simplexml_load_string($content);
-        $Xml = simplexml_load_file('../../../note.xml');
+        if(!$content){
+            throw new \Exception('无效的输入',40001);
+        }
+        $Xml = simplexml_load_string($content);
+        //$Xml = simplexml_load_file('../../../note.xml');
         if ($Xml === false) {
             throw new \Exception(libxml_get_last_error(), 4000);
         }
         $this->execute($Xml);
+        $html=$this->HtmlXml->asXml();
+        return mb_substr($html,strpos($html,"\n")+1);
     }
 
     private function execute(\SimpleXMLElement $Xml) {
@@ -133,7 +138,6 @@ class Main {
         for ($Xml->rewind(); $Xml->valid(); $Xml->next()) {
             call_user_func([$this, strtoupper(str_replace('-', '_', $Xml->current()->getName()))], $Xml->current());
         }
-        echo $this->HtmlXml->asXml();
     }
 
 
@@ -275,17 +279,47 @@ class Main {
      *
      * @param \SimpleXMLIterator $Xml
      */
-    private function IMAGE(\SimpleXMLIterator $Xml) {
+    private function IMAGE(\SimpleXMLIterator $Xml)
+    {
         $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
-        $source=$Xml->source->__toString();
-        $image=$this->HtmlXml->addChild('img');
-        $image->addAttribute('id',$id);
-        $imageCss=[
-            'cursor'=>'pointer'
+        $source = $Xml->source->__toString();
+        $src = 'static.lihuasheng.cn/m_blog_source/source/images' . mt_rand(1, 9) . 'jpg';
+        $image = $this->HtmlXml->addChild('img');
+        $image->addAttribute('id', $id);
+        $imageCss = [
+            'cursor' => 'pointer'
         ];
+        $css = $this->getCssStr($imageCss, $id);
+        if ($this->isInsertCssIntoNode) {
+            $image->addAttribute('style', $css['css']);
+        }
+        $image->addAttribute('src', $src);
+        $image->addAttribute('data-media-type', 'image');
+        $image->addAttribute('data-original', $src);
     }
 
     /**
+     * 附件
+     *
+     * @param \SimpleXMLIterator $Xml
+     */
+    private function ATTACH(\SimpleXMLIterator $Xml){
+        $id = property_exists($Xml, 'coId') ? $Xml->coId : uniqid();
+        $source = $Xml->source->__toString();
+        $src = 'static.lihuasheng.cn/blog/' . mt_rand(1, 9) . 'jpg';
+        $attachment = $this->HtmlXml->addChild('div',$Xml->filename->__toString());
+        $attachment->addAttribute('id', $id);
+        $attachmentCss = [
+            'cursor' => 'pointer'
+        ];
+        $css = $this->getCssStr($attachmentCss, $id);
+        if ($this->isInsertCssIntoNode) {
+            $attachment->addAttribute('style', $css['css']);
+        }
+        $attachment->addAttribute('path', $src);
+    }
+
+        /**
      * 文本样式
      *
      * @param \SimpleXMLIterator $Xml
@@ -532,7 +566,5 @@ class Main {
     public function __call($name, $arguments) {
         self::log($name . "\t" . json_encode($arguments));
     }
-
 }
-
-Main::getInstance()->transform(null);
+//Main::getInstance()->transform(null);
