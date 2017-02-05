@@ -155,4 +155,11 @@ class AdminController extends Controller {
             return $this->packing($E->getCode(), $msg);
         }
     }
+
+    /**
+     * 1.0
+     */
+    public function auth(){
+
+    }
 }
